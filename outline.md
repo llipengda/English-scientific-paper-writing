@@ -6,9 +6,8 @@
 - Related Work
 - Main method and theory
     - Foundational principles of the PageRank algorithm
-    - The impact of damping factors on search results and page rankings
 - Experiment and Discussion
-    - (Results)Comparative analysis of its performance against other algorithms
+    - (Results)Analysis of its performance and the impact of the factors that can influence the search results and page rankings.
     - Discussion on potential enhancements     
 - Conclusion
     - Summary of the paper
