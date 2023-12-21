@@ -41,8 +41,7 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 \onehalfspacing
 \title{Unveiling the PageRank Algorithm: Principles, Performance, and Enhancements}
-\author{Wu Zelin, Wu Zekai, Li Pengda
-	\thanks{We should thank Ms.Ye here}}
+\author{Wu Zelin, Wu Zekai, Li Pengda}
 
 \maketitle\thispagestyle{headings}
 \markboth{10225101428 吴泽霖\quad10225101429 武泽恺\quad10225101460 李鹏达}{}%
@@ -57,27 +56,40 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 
 \section{Introduction}
-\lettrine{W}{ith}
-the proliferation of the Internet, the explosively increasing amount of web pages on the World Wide Web has created the demand for the web searching engines with high-efficiency and high-effectiveness. 
-For the biggest search engine company Google, which held a global market share of 93.18\% until March 2023, it is of primary significance to develop a powerful search algorithm to provide users with the most relevant and useful results in the shortest time. 
+
+\subsection{Background}
+
+\lettrine{W}{ith} 
+the proliferation of the Internet technology, the explosively increasing amount of web pages on the World Wide Web has created the demand for the web searching engines with high-efficiency and high-effectiveness. 
+For the biggest search engine company Google, which held a global market share of 91.54\% until November 2023\footnote[1]{Search Engine Market Share Worldwide, Statcounter GlobalStats, 2023, https:
+//gs.statcounter.com/search-engine-market-share}, it is of primary significance to develop a powerful search algorithm to provide users with the most relevant and useful results in the shortest time. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=2.5in]{images/fig2.png}
+    \caption{Google's market share in the global search engine market from December 2022 to November 2023.}
+    \label{fig1}
+\end{figure}
 
 Previous studies on web search algorithms have proven that TF-IDF algorithm and BM25 algorithm were efficient and effective in the early days of the Internet. 
 
 However, these algorithms have been unable to meet the growing demand of users. 
 The users' search queries are becoming diversified and the web pages are becoming complex.
-According to the statistics, the number of web pages has increased to 130 trillion in 2016, which means that the amount of web pages has increased by 130 times in 20 years and it takes longer time to search for the most relevant web pages.
-To overcome the aformentioned chanllenge, Google has developed a state-of-the-art algorithm called PageRank, which is currently a fundamental algorithm in web search and redefine how we navigate web search and information retrieval.
+According to the statistics, the amount of web pages, a 130-fold increase over 20 years, has surged to 130 trillion in 2016, which means it takes much longer time to search for the most relevant web pages.
+To overcome the aformentioned chanllenge, Google has developed a state-of-the-art algorithm called PageRank, which is currently a fundamental algorithm in web search, redefining how we navigate web search.
 
-PageRank is algorithm developed by Larry Page and Sergey Brin in the late 1990s to measure the importance of web pages. 
-It was originally created for the Google search engine and is named after one of the founder of Google Larry Page.
-Google search engine uses the algorithm to analyze the relevance and importance of web pages and regard it as one of the factors to evaluate the effectiveness of web page optimization. 
+\subsection{Introduction to the PageRank Algorithm} 
 
-In this paper, we make the following simple insights and research:
+PageRank is an algorithm developed by Larry Page and Sergey Brin in the late 1990s to measure the importance of web pages. 
+Originally created for the Google search engine, it is named after one of the founder of Google Larry Page. Except for the searching use, the Google search engine also takes advantage of this algorithm to analyze the relevance and importance of web pages, considering it as one of the factors to evaluate the effectiveness of web page optimization. 
+
+\subsection{Outline of this Paper}
+
+In this paper, we present the following insights and research:
 \begin{itemize}
-	\item The operation mode of the PageRank and the principles it used
-	\item PageRank's algorithmic determinism of the importance of the web pages
-	\item The impact of damping factors on search results and page rankings
-	\item Explore the possibility of other factors that can improve PageRank performance except for link analysis
+	\item The foundational principles of the PageRank algorithm.(Section 3, Subsection A)
+	\item Analysis of its performance and the impact of the factors on search results and page rankings.(Section 4, Subsection A)
+	\item Discussion on potential enhancements and exploration of the possibility of other factors that can improve PageRank performance.(Section 4, Subsection B)
 \end{itemize}
 
 In the next section,PageRank is briefly reviewed and analyzed.
@@ -97,20 +109,20 @@ This is a simple subsection too.
 
 \section{Main Method and Theory}
 
-We should introduce our methods and Theories here.
+
 
 \subsection{Subsection 1}
 
 This is a simple subsection. 
 We can make a citation here. \cite{ref1}
 
-\figurename~\ref{fig1} is a figure. You can see it at the top of the page.
+\figurename~\ref{fig2} is a figure. You can see it at the top of the page.
 
 \begin{figure}[!t]
 	\centering
 	\includegraphics[width=2.5in]{images/fig1.png}
 	\caption{This is a figure.}
-	\label{fig1}
+	\label{fig2}
 \end{figure}
 
 \subsection{The 3rd Section 2nd Subsection}
