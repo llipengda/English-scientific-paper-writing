@@ -58,19 +58,19 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \section{Introduction}
 \lettrine{W}{ith}
-the proliferation of the Internet, the explosively increasing amount of web pages on the World Wide Web has created the demand for the web searching engines with high-efficiency and high-effectiveness. 
-For the biggest search engine company Google, which held a global market share of 93.18\% until March 2023, it is of primary significance to develop a powerful search algorithm to provide users with the most relevant and useful results in the shortest time. 
+the proliferation of the Internet, the explosively increasing amount of web pages on the World Wide Web has created the demand for the web searching engines with high-efficiency and high-effectiveness.
+For the biggest search engine company Google, which held a global market share of 93.18\% until March 2023, it is of primary significance to develop a powerful search algorithm to provide users with the most relevant and useful results in the shortest time.
 
-Previous studies on web search algorithms have proven that TF-IDF algorithm and BM25 algorithm were efficient and effective in the early days of the Internet. 
+Previous studies on web search algorithms have proven that TF-IDF algorithm and BM25 algorithm were efficient and effective in the early days of the Internet.
 
-However, these algorithms have been unable to meet the growing demand of users. 
+However, these algorithms have been unable to meet the growing demand of users.
 The users' search queries are becoming diversified and the web pages are becoming complex.
 According to the statistics, the number of web pages has increased to 130 trillion in 2016, which means that the amount of web pages has increased by 130 times in 20 years and it takes longer time to search for the most relevant web pages.
 To overcome the aformentioned chanllenge, Google has developed a state-of-the-art algorithm called PageRank, which is currently a fundamental algorithm in web search and redefine how we navigate web search and information retrieval.
 
-PageRank is algorithm developed by Larry Page and Sergey Brin in the late 1990s to measure the importance of web pages. 
+PageRank is algorithm developed by Larry Page and Sergey Brin in the late 1990s to measure the importance of web pages.
 It was originally created for the Google search engine and is named after one of the founder of Google Larry Page.
-Google search engine uses the algorithm to analyze the relevance and importance of web pages and regard it as one of the factors to evaluate the effectiveness of web page optimization. 
+Google search engine uses the algorithm to analyze the relevance and importance of web pages and regard it as one of the factors to evaluate the effectiveness of web page optimization.
 
 In this paper, we make the following simple insights and research:
 \begin{itemize}
@@ -80,18 +80,21 @@ In this paper, we make the following simple insights and research:
 	\item Explore the possibility of other factors that can improve PageRank performance except for link analysis
 \end{itemize}
 
-In the next section,PageRank is briefly reviewed and analyzed.
+In the next section, PageRank is briefly reviewed and analyzed.
 
 \section{Related Work}
 
-We should introduce some nb works here.
-And we should cite some papers here.
+These section shows the brief concept of the PageRank algorithm. Theses concept motivate the design of our research.
 
-\subsection{Subsection 1}
+\subsection{Synopsis of PageRank}
 
-In this section we should introduce some nb works here.
+PageRank is a link ana1ysis algorithm and it assigns a numerical weighting to each element of hyperlinked set of documents. It is aimed to achieve the purpose of measuring the relative importance of a element of a collection. The algorithm can be applied to any collection containing mutual references between elements.We call the weight value of any element E as ``PageRank of E", which is represented symbolically as $\boldsymbol{PR(E)}$. Other factors such as ``Author Rank" can also affect the weight value of an element.
 
-\subsection{Subsection 2}
+A PageRank results from a mathematical algorithm based on the webgraph, created by all World Wide Web pages as nodes and hyperlinks as edge, taking into consideration anthority hubs such as CNN. The rank value indicates an importance of a particular page. A hyperlink to this web page is called ``a vote of support for this web page". The weight of each web is defined recursively, based on the weight of all pages linking to it. For example, a page linked to many pages will have a high PageRank.
+
+
+
+\subsection{Markov Chain}
 
 This is a simple subsection too.
 
@@ -101,7 +104,7 @@ We should introduce our methods and Theories here.
 
 \subsection{Subsection 1}
 
-This is a simple subsection. 
+This is a simple subsection.
 We can make a citation here. \cite{ref1}
 
 \figurename~\ref{fig1} is a figure. You can see it at the top of the page.
