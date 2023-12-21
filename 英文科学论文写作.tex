@@ -107,11 +107,31 @@ PageRank is a link ana1ysis algorithm and it assigns a numerical weighting to ea
 
 A PageRank results from a mathematical algorithm based on the webgraph, created by all World Wide Web pages as nodes and hyperlinks as edge, taking into consideration anthority hubs such as CNN. The rank value indicates an importance of a particular page. A hyperlink to this web page is called ``a vote of support for this web page". The weight of each web is defined recursively, based on the weight of all pages linking to it. For example, a page linked to many pages will have a high PageRank.
 
-
+Many academic papers on PageRank existed before Page and Brin's original paper. In actual situations, PageRank is easily exploited. Relevant research tends to focus on those PageRank results affected by errors. In order to solve the problem, Google launched a new attribute nofollow for web links. The attribute allows webmasters and blogger to create some links that do not count, which means that these links do not serve as the ``vote'' so that they can ignore the spam votes.
 
 \subsection{Markov Chain}
 
-This is a simple subsection too.
+Markov chain, also called discrete-time Markov chain, is named after the Russian mathematician Andrei Markov. The chain is a random process in state space that undergoes a transition from a state to another. The process requires ``memoryless'' properties. That means the probability distribution of the next state can only be determined by the current state. Simultaneously, the previous events in the time series have no connection with it. The specific type of ``memoryless'' is called Markov properties. Markov chains have many applications as statistical models of real process.
+
+At each step of the Markov chain, the system can maintain or change from one state to another according to the probability distribution. State changes are called transitions, and the probabilities associated with different state changes are called transition probabilities.
+
+If the Markov chain runs for enough time, the distribution of its state will reach a stationary distribution and remain unchanged. Formally, if the Markov chain has $n$ states, the transition matrix is $P$
+, and the stationary distribution vector is $\boldsymbol{\pi}$, then $\boldsymbol{\pi} = \boldsymbol{\pi} P$ is satisfied.
+
+This means that the stationary distribution vector $\boldsymbol{\pi}$ is an eigenvector of the transfer matrix $P$ and corresponds to an eigenvalue of 1. Specifically, a stationary distribution has the following properties:
+\begin{enumerate}
+	\item [1.] $\boldsymbol{\pi_i}\geq0$, and $\sum\boldsymbol{\pi_i}=1$. That is, each element of a stationary distribution is non-negative and sums to 1, representing probability.
+	\item [2.] $\boldsymbol{\pi} = \boldsymbol{\pi} P$. That is, the stationary distribution vector is the eigenvector of the transfer matrix, and the corresponding eigenvalue is 1. This shows that if the current state is stationary, then after one step of transition, the state distribution will still be stationary.
+	\item [3.] Do not depend on initial state. No matter what the initial state is, after a long enough transfer, the Markov chain
+	      The state distribution will reach a stationary distribution.
+	\item [4.] Uniqueness. The stationary distribution of a Markov chain is unique.
+\end{enumerate}
+
+Stationary distribution represents the stable state of the Markov chain after long-term operation and will no longer be affected by the initial state.
+It measures the frequency of each state in the entire chain, giving the Markov chain stable operation of each
+the proportion of time spent in the state.
+
+Assumeing that when we browse a page on the Internet, the process of selecting the next interface has no collection with that we browse before but only depends on the current page. This is a simple finite-state, discrete-time stochastic process that can be described using a Markov chain.
 
 \section{Main Method and Theory}
 
