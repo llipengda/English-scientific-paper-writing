@@ -8,7 +8,8 @@
     - Foundational principles of the PageRank algorithm
 - Experiment and Discussion
     - (Results)Analysis of its performance and the impact of the factors that can influence the search results and page rankings.
-    - Discussion on potential enhancements     
+    - Discussion on potential enhancements 
 - Conclusion
     - Summary of the paper
+    - PageRank in AI application
 - References
