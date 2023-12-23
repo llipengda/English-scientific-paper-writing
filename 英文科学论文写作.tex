@@ -95,14 +95,14 @@ In this paper, we present the following insights and research:
 \begin{itemize}
 	\item The foundational principles of the PageRank algorithm.(Section 3, Subsection A)
 	\item Analysis of its performance and the impact of the factors that can influence the search results and page rankings.(Section 4, Subsection A)
-	\item Discussion on potential enhancements and exploration of the possibility of other factors that can improve PageRank performance.(Section 4, Subsection B)
+	\item Discussion on potential enhancements and exploration of the possibility of other factors that can improve PageRank performance.(Section 5, Subsection A and B)
 \end{itemize}
 
 In the next section, PageRank is briefly reviewed and analyzed.
 
 \section{Related Work}
 
-These section shows the brief concept of the PageRank algorithm. Theses concept motivate the design of our research.
+This section shows the brief concept of the PageRank algorithm. Theses concept motivate the design of our research.
 
 \subsection{Synopsis of PageRank}
 
@@ -157,7 +157,7 @@ We can make a citation here. \cite{ref1}
 \subsection{The 3rd Section 2nd Subsection}
 
 This is a simple subsection too.
-\section{Experiment}
+\section{Experiment and results}
 
 This is a simple section.
 \subsection{The 4th Section 1st Subsection}
@@ -197,17 +197,15 @@ This is a algorithm:
 	\label{alg1}
 \end{algorithm}
 
-\section{Experiment and results }
-
-That's is a nibility hkafhakf
 
 \section{Discussion on potential enhancements}
 
+This section we will talk about the flaws the PageRank has and the way to improve it.
 \subsection{Flaws}
 
 Although PageRank is a classic web page ranking algorithm, it also has some flaws.
 
-The most obvious flaw is call ``uniform access assumption''. It assumes that users have an equal probability if accessing all web pages. Apparently, it is not always true. Users' hobbies and social areas may affect this possibility.
+The most obvious flaw is call ``uniform access assumption''. It assumes that users have an equal probability to access all web pages. Apparently, it is not always true. Users' hobbies and social areas may affect this possibility.
 
 Except the ``uniform access assumption'', there are other flaws:
 \begin{itemize}
@@ -276,7 +274,7 @@ We can demonstrate the following formula.
 			                              & +\boldsymbol{\pi}[(1-c)\overline{E}+(1-c)(1/n)E]                                                          \\
 			                              & =(\frac{n_1}{n}\boldsymbol{\pi}_1\widetilde{P_1},\ldots,\frac{n_N}{n}\boldsymbol{\pi}_N\widetilde{P_N})   \\
 			                              & +(1-c)(1/n)e^T-(1-c)(1/n)e^T                                                                              \\
-			                              & =\boldsymbol{\pi}=\frac{1}{n}(n_1\boldsymbol{\pi}_1,  n_2\boldsymbol{\pi}_2,\ldots,n_N\boldsymbol{\pi}_N) \\
+			                              & =\frac{1}{n}(n_1\boldsymbol{\pi}_1,  n_2\boldsymbol{\pi}_2,\ldots,n_N\boldsymbol{\pi}_N) \\
 			                              & =\boldsymbol{\pi}
 		\end{aligned}
 	\end{equation}
@@ -301,7 +299,7 @@ The main idea of Topic-sensitive PageRank is to build multiple PageRank vectors 
 \begin{figure*}[!t]
 	\centering
 	\includegraphics[width=\textwidth]{images/fig3.png}
-	\caption{A system diagram that uses a subject-sensitive PageRank.}
+	\caption{A system diagram that uses a topic-sensitive PageRank.}
 	\label{fig3}
 \end{figure*}
 
@@ -330,7 +328,7 @@ There is brief institution about CSR.
 
 
 For a given block-size parameter $\boldsymbol{\beta}$, CSB partitions the $n\times n$
-matrix $A$ into $n^2/\boldsymbol{\beta}^2$ equal-sized $\boldsymbol{\beta} \times \symbol{\beta}$ square blocks.
+matrix $A$ into $n^2/\boldsymbol{\beta}^2$ equal-sized $\boldsymbol{\beta} \times \boldsymbol{\beta}$ square blocks.
 \begin{equation}
 	\begin{pmatrix}
 		A_{00}                       & A_{01}                       & \cdots & A_{0,n/\boldsymbol{\beta}-1}                      \\
@@ -341,7 +339,7 @@ matrix $A$ into $n^2/\boldsymbol{\beta}^2$ equal-sized $\boldsymbol{\beta} \time
 \end{equation}
 where the block $A_{ij}$ is the $\boldsymbol{\beta} \times \boldsymbol{\beta}$ submatrix of $A$ containing elements falling in rows $i\boldsymbol{\beta}, i\boldsymbol{\beta}+1, \ldots, (i+1)\boldsymbol{\beta}-1$ and columns
 $j\boldsymbol{\beta}, j\boldsymbol{\beta}+1, \ldots, (ji+1)\boldsymbol{\beta}-1$ of the matrix. For simplicity of presentation,
-we shall assume that $\boldsymbol{\beta} $is an exact power of 2 and that it divides $n$;
+we shall assume that $\boldsymbol{\beta} $ is an exact power of 2 and that it divides $n$;
 relaxing these assumptions is straightforward.
 
 \section{Conclusion}
