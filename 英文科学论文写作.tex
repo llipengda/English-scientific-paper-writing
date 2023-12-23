@@ -18,6 +18,8 @@
 \usepackage{textcase}
 \usepackage{setspace}
 \setmainfont{Times New Roman}[SmallCapsFont=TeX Gyre Termes:+smcp]
+\newenvironment*{proof}{{\noindent\it Proof}\quad}
+
 % rule to break words
 \hyphenation{}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -243,7 +245,56 @@ PageRank vector of $\widetilde{P}$, and make
 \begin{equation}
 	\boldsymbol{\pi}_I\widetilde{P}_I = \boldsymbol{\pi}_I, \boldsymbol{\pi}_I\boldsymbol{e}=1
 \end{equation}
-\subsubsection{dier}
+
+We can demonstrate the following formula.
+
+\begin{equation}
+	\label{eq:4444}
+	\boldsymbol{\pi}=\frac{1}{n}(n_1\boldsymbol{\pi}_1,  n_2\boldsymbol{\pi}_2,\ldots,n_N\boldsymbol{\pi}_N)
+\end{equation}
+
+\begin{proof}
+	
+
+    denfine:
+	\begin{equation}
+		\widetilde{E}=
+		\begin{bmatrix}
+			\frac{1}{n_1}E    & \cdots & 0      \\
+			\vdots & \ddots & \vdots \\
+			0      & \cdots & \frac{1}{n_N}E
+		\end{bmatrix}
+	\end{equation}
+
+	To the $\boldsymbol{\pi}$ in \eqref{eq:4444}
+	\begin{equation}
+		\begin{aligned}
+			\boldsymbol{\pi}\widetilde{P}&= \boldsymbol{\pi}[cP+(1-c)\overline{E}\\
+			&-(1-c)\overline{E}+(1-c)(1/n)E] \\
+			&=\boldsymbol{\pi}[cP+(1-c)\overline{E}]\\
+			&+\boldsymbol{\pi}[(1-c)\overline{E}+(1-c)(1/n)E]\\
+			&=(\frac{n_1}{n}\boldsymbol{\pi}_1\widetilde{P_1},\ldots,\frac{n_N}{n}\boldsymbol{\pi}_N\widetilde{P_N})\\
+			&+(1-c)(1/n)e^T-(1-c)(1/n)e^T\\
+			&=\boldsymbol{\pi}=\frac{1}{n}(n_1\boldsymbol{\pi}_1,  n_2\boldsymbol{\pi}_2,\ldots,n_N\boldsymbol{\pi}_N)\\
+			&=\boldsymbol{\pi}
+		\end{aligned}
+	\end{equation}
+
+\end{proof}
+Since $\widetilde{P}$ 's PageRank vector is unique, $\boldsymbol{\pi}$ is $\widetilde{P}$ 's PageRank vector.
+
+The proof of this theorem is relatively easy. This decomposition property can also be expressed by the following formula:
+\begin{equation}
+	\boldsymbol{\pi}=
+	\frac{1-c}{n}e^T[1-cP]^{-1}
+\end{equation}
+
+The hyperlink matrix is extremely sparse, and the time complexity is close to linear in the number of pages. Since we have broken down the hyperlink matrix, we can process each part independently and store different parts of the PageRank approximation vector in different databases to save time and space. 
+
+
+
+\subsubsection{ Topic-sensitive PageRank}
+
 
 \subsubsection{disan}
 
