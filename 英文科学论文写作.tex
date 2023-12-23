@@ -60,7 +60,7 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \subsection{Research Background}
 
 \lettrine{W}{ith} 
-the proliferation of the Internet technology, the explosively increasing amount of web pages on the World Wide Web has created the demand for the web searching engines with high-efficiency and high-effectiveness. 
+the proliferation of the Internet technology, the explosively increasing number of web pages on the World Wide Web has created the demand for the web searching engines with high-efficiency and high-effectiveness. 
 For the biggest search engine company Google, which held a global market share of 91.54\% until November 2023\footnote[1]{Search Engine Market Share Worldwide, Statcounter GlobalStats, 2023, https:
 //gs.statcounter.com/search-engine-market-share}, it is of primary significance to develop a powerful search algorithm to provide users with the most relevant and useful results in the shortest time. 
 
@@ -71,10 +71,10 @@ For the biggest search engine company Google, which held a global market share o
     \label{fig1}
 \end{figure}
 
-Previous studies on web searching algorithms have proven that keyword matching algorithm\cite{ref1}, vector space model\cite{ref2}, and the Hyperlink-Induced Topic Search algorithm\cite{ref3} were useful, efficient and effective in the early days of the Internet.
+Previous studies on web searching algorithms have proven that keyword matching algorithm\cite{ref1}, vector space model\cite{ref2}, and the Hyperlink-Induced Topic Search algorithm(HITS)\cite{ref3} were useful, efficient and effective in the early days of the Internet.
 
 However, these algorithms have been unable to meet the growing demand of users. The users' search queries are becoming diversified and the web pages are becoming complex. 
-According to the statistics, the amount of web pages, a 130-fold increase over 20 years, has surged to 130 trillion in 2016, which means it takes much longer time to search for the most relevant web pages.
+According to the statistics, the number of web pages, a 130-fold increase over 20 years, has surged to 130 trillion in 2016, which means it takes much longer time to search for the most relevant web pages.
 Besides, they only take into account the page content but ignore the graphical structure of the web pages.
 To overcome the aformentioned chanllenge, Google has developed a state-of-the-art algorithm called PageRank, which is currently a fundamental algorithm in web search, redefining how we navigate web search.
 
@@ -99,22 +99,35 @@ In the next section, we introduce the preliminaries and the related work of the 
 This section shows the brief concept and preliminaries of the PageRank algorithm, which is indispensable for the understanding of the following sections.
 
 %这里需要改，改成之前的算法介绍，不要用这个
-\subsection{TF-IDF Algorithm}
+\subsection{Hyperlink-Induced Topic Search algorithm}
 
+The Hyperlink-Induced Topic Search (HITS) algorithm is a link analysis algorithm that ranks web pages, developed by Jon Kleinberg. This algorithm assigns two scores to each page,including hub score and authority score. Hub is a web page that link to many other web pages, while authority is a web page that is linked by many hubs. This algorithm computes the hub and authority scores for every page on the World Wide Web. The hub and authority scores are computed iteratively until the ultimate structure of web pages is formed. This algorithm has been applied to many search engines, computational biology and many other fields. 
 
+However, its limitations are exposed in many circumstances. For instance, simply classifying the web pages into two categories, it is unable to rank the web pages in a more precise way, which worsens as the number of web pages increases. To address this problem, the PageRank algorithm introduces link weights to define the importance of a hyperlink. For instance, if a web page is linked by an important web page, then its importance will also be higher.
 
-%这里也需要国产化一下
+For the large searching engine, simplicity and efficiency are significant considerations. The HITS algorithm requires multiple iterative and complex calculations, leading to its unsuitability for the current need.
+
 \subsection{Synopsis of PageRank}
 
-PageRank is a link analysis algorithm and it assigns a numerical weighting to each web page of all hyperlinked web pages, aiming to measure the relative importance of each web page of the collection based on its parent web page's importance. This algorithm can be applied to any collection containing mutual references between elements.We call the weight value of any element E as ``PageRank of E", which is represented symbolically as $\boldsymbol{PR(E)}$. Other factors such as ``Author Rank" can also affect the weight value of an element.
+PageRank is a link analysis algorithm\cite{ref4}. It assigns a numerical weighting to each web page of all hyperlinked web pages. We call the weight value of any element E as ``PageRank of E", which is represented as symbol $\boldsymbol{PR(E)}$. 
+The weight value of a web page could be affected by other factors, such as "Author Rank," which takes into account the author's reputation and authority.
 
-A PageRank results from a mathematical algorithm based on the webgraph, created by all World Wide Web pages as nodes and hyperlinks as edge, taking into consideration anthority hubs such as CNN. The rank value indicates an importance of a particular page. A hyperlink to this web page is called ``a vote of support for this web page". The weight of each web is defined recursively, based on the weight of all pages linking to it. For example, a page linked to many pages will have a high PageRank.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=2.5in]{images/fig3.jpeg}
+    \caption{A simple illustration of PageRank, where each circle represents a web page and each arrow represents a hyperlink. The size of each circle represents the importance of each web page.}
+    \label{fig3}
+\end{figure}
+
+A web page's PageRank is created by all World Wide Web pages as nodes and hyperlinks as edge, as Fig.2 shows. The PageRank value indicates the importance of a web page, aiming to measure the relative importance of each web page based on its parent web page's importance, namely the PageRank of all pages linking to it. For instance, a page linked to many pages will have a high PageRank. And it is calculated recursively in the implementation of the algorithm. Besides, a hyperlink to this web page is called ``a vote of support for this web page". 
 
 Many academic papers on PageRank existed before Page and Brin's original paper. In actual situations, PageRank is easily exploited. Relevant research tends to focus on those PageRank results affected by errors. In order to solve the problem, Google launched a new attribute nofollow for web links. The attribute allows webmasters and blogger to create some links that do not count, which means that these links do not serve as the ``vote'' so that they can ignore the spam votes.
 
 \subsection{Markov Chain}
 
-Markov chain, also called discrete-time Markov chain, is named after the Russian mathematician Andrei Markov. The chain is a random process in state space that undergoes a transition from a state to another. The process requires ``memoryless'' properties. That means the probability distribution of the next state can only be determined by the current state. Simultaneously, the previous events in the time series have no connection with it. The specific type of ``memoryless'' is called Markov properties. Markov chains have many applications as statistical models of real process.
+Markov chain, also called discrete-time Markov chain, is named after the Russian mathematician Andrei Markov. As the base of the PageRank algorithm, it helps determine the state of each web page.
+
+The chain is a random process in state space that undergoes a transition from a state to another. The process requires ``memoryless'' properties. That means the probability distribution of the next state can only be determined by the current state. Simultaneously, the previous events in the time series have no connection with it. The specific type of ``memoryless'' is called Markov properties. Markov chains have many applications as statistical models of real process.
 
 At each step of the Markov chain, the system can maintain or change from one state to another according to the probability distribution. State changes are called transitions, and the probabilities associated with different state changes are called transition probabilities.
 
@@ -131,12 +144,11 @@ This means that the stationary distribution vector $\boldsymbol{\pi}$ is an eige
 \end{enumerate}
 
 Stationary distribution represents the stable state of the Markov chain after long-term operation and will no longer be affected by the initial state.
-It measures the frequency of each state in the entire chain, giving the Markov chain stable operation of each
-the proportion of time spent in the state.
+It measures the frequency of each state in the entire chain, giving the Markov chain stable operation of each the proportion of time spent in the state.
 
 Assumeing that when we browse a page on the Internet, the process of selecting the next interface has no collection with that we browse before but only depends on the current page. This is a simple finite-state, discrete-time stochastic process that can be described using a Markov chain.
 
-\subsection{PageRank Algorithm and Eigenvalues of  Matrix}
+\subsection{PageRank Algorithm and Eigenvalues of Matrix}
 
 The PageRank algorithm is related to the eigenvalue of the matrix. Before the PageRank algorithm was proposed, eigenvalue of the matrix questions are used in many problems. Many have independently proposed using eigenvalue problems, including Edmund Landau's proposal(1895) for determining the winner of a chess tournament, Gabriel Pinski and Francis Narin's work(1976) on ranking scientific journals in scientometrics, Thomas Saaty's work(1977) on the weighted alternative choice, Bradley Love and StevenSloman's work on a cognitive model, namely the centrality algorithm. 
 
@@ -218,9 +230,11 @@ This is the conclusion area. We should write a very nb conclusion here.
     \bibitem{ref2}
     G. Salton, A. Wong, C. S. Yang, {\it{A vector space model for automatic indexing}}. Association for Computing Machinery, New York, NY, United States, 1975.
 	\bibitem{ref3}
-	aaaaaaa
-	
-	
+	JON M. KLEINBERG, {\it{Authoritative Sources in a Hyperlinked Environment}}. Cornell University, Ithaca, New York, United States, 1999.
+	\bibitem{ref4}
+	Sergey Brin, Lawrence Page, {\it{The Anatomy of a Large-Scale Hypertextual Web
+	Search Engine}}. Computer Science Department, Stanford University, Stanford, CA 94305, USA, 1998.
+
 
 \end{thebibliography}
 
