@@ -297,24 +297,31 @@ The hyperlink matrix is extremely sparse, and the time complexity is close to li
 
 The Topic-sensitive PageRank is an extension of the PageRank algorithm.It is designed to improve the accuracy of search results. Unlike the traditional PageRank, it no longer only considers the global importance of the page, but instead ranks pages based on the importance of a given topic. This algorithm is more effective for search results that require a specific topic.
 The main idea of Topic-sensitive PageRank is to build multiple PageRank vectors based on a predefined topic.Each vector has its own topic.We use them to calculate the weight of a page. In a regular keyword search query, we can use the topic of the query keyword to calculate a page's topic-sensitive PageRank score Number. In contextual search, the topic of the queried context can be used to calculate the topic-sensitive PageRank score for the page. By using these (pre-calculated) linear combinations of topic-biased PageRank vectors, it is possible to generate a context-specific page importance score at query time.This will generate more accurate ranking results than using a single generic PageRank vector.
-\begin{figure}[!t]
+\begin{figure*}[!t]
 	\centering
-	\includegraphics[width=2.5in]{images/fig3.png}
+	\includegraphics[width=\textwidth]{images/fig3.png}
 	\caption{A system diagram that uses a subject-sensitive PageRank.}
 	\label{fig3}
-\end{figure}
+\end{figure*}
 
 An overview of Topic-sensitive is provided below. During offline web crawler processing, we generated 16 topic-sensitive PageRank vectors by using top-level category URLs from OpenDirectoryProject (ODP, a web directory with more than 2.5 million URLs). At query time, we calculate the similarity of between the query (or any available context) and each topic. Then, instead of using a single global rank vector, we use topic-sensitivity linear combination of vectors, weighted using the similarity. By using a group of rank vectors, we can more accurately identify the most important pages relevant to a particular query or query context. Since link-based computation is processed offline in the preprocess, the query time cost is no higher than the normal PageRank.
 \subsubsection{Sparse Matrix Optimization}
-A sparse matrix or sparse array is a matrix in which most of the elements are zero in numerical analysis and scientific computing. A common criterion is that the number of non-zero elements is roughly equal to the number of rows or columns. By contrast, if most of the elements are non-zero, the matrix is considered dense.  
-\begin{figure}[!t]
-	\centering
-	\includegraphics[width=2.5in]{images/OIP.jpg}
-	\caption{A example of a sparse matrix with $6\times7$ elements.}
-	\label{fig666}
-\end{figure}
+A sparse matrix or sparse array is a matrix in which most of the elements are zero in numerical analysis and scientific computing. A common criterion is that the number of non-zero elements is roughly equal to the number of rows or columns. By contrast, if most of the elements are non-zero, the matrix is considered dense.
 
-The most computationally intensive part of the PageRank is to calculate the link weight between web pages that involves summing the outbound links of each web page. Since the number of outbound links for most web pages is very large, and many elements of it is zero. So, we can use the sparse matrix algorithm to solve the PageRank Matrix.That means we only need solve the zero elements. 
+There is an example of sparse matrix.
+
+\begin{equation}
+	A_{6\times 7}=
+	\begin{bmatrix}
+		0&0&1&0&0&0&0\\
+		0&2&0&0&0&0&0\\
+		3&0&0&0&0&0&0\\
+		0&0&0&0&6&0&0\\
+		0&0&0&0&0&7&4
+	\end{bmatrix}
+\end{equation}
+
+The most computationally intensive part of the PageRank is to calculate the link weight between web pages that involves summing the outbound links of each web page. Since the number of outbound links for most web pages is very large, and many elements of it is zero. So, we can use the sparse matrix algorithm to solve the PageRank Matrix.That means we only need solve the zero elements.
 
 One way to optimize a sparse matrix is to use the Compressed Sparse Row (CSR) format. In the CSR format, each non-zero element in the matrix saves its value, column index, and row offset. The row offset indicates the position of the first non-zero element in each row. The operation makes each row of the matrix can be represented by a single array. This approach can greatly reduce the computational complexity because only non-zero elements need to be processed. In the PageRank, the use of CSR format reduces computation time and memory consumption, allowing the algorithm to handle larger collections of web pages.
 
@@ -325,9 +332,9 @@ For a given block-size parameter $\boldsymbol{\beta}$, CSB partitions the $n\tim
 matrix $A$ into $n^2/\boldsymbol{\beta}^2$ equal-sized $\boldsymbol{\beta} \times \symbol{\beta}$ square blocks.
 \begin{equation}
 	\begin{pmatrix}
-		A_{00} & A_{01} & \cdots & A_{0,n/\boldsymbol{\beta}-1}\\
-		A_{10} & A_{11} & \cdots & A_{1,n/\boldsymbol{\beta}-1}\\
-		\vdots & \vdots &\ddots&\vdots\\
+		A_{00}                       & A_{01}                       & \cdots & A_{0,n/\boldsymbol{\beta}-1}                      \\
+		A_{10}                       & A_{11}                       & \cdots & A_{1,n/\boldsymbol{\beta}-1}                      \\
+		\vdots                       & \vdots                       & \ddots & \vdots                                            \\
 		A_{n/\boldsymbol{\beta}-1,0} & A_{n/\boldsymbol{\beta}-1,1} & \cdots & A_{n/\boldsymbol{\beta}-1,n/\boldsymbol{\beta}-1}
 	\end{pmatrix}
 \end{equation}
