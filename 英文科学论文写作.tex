@@ -1,4 +1,4 @@
-\documentclass[lettersize,journal,12pt]{IEEEtran}
+\documentclass[lettersize,journal,12pt,conference]{IEEEtran}
 \usepackage{fontspec}
 \usepackage{amsmath,amsfonts}
 \usepackage{algorithmic}
@@ -211,26 +211,95 @@ The iterative method is also called power iteration. Both the two methods includ
 
 In the algebraic method, PageRank values are calculated by constructing and solving a group of linear equations\footnote[2]{即线性方程组.} that describes the relationships of web pages, which requires constructing a very large matrix. Solving the system of equations is much more difficult and complex, even for computers.
 
-But for the iterative method, it could acquire final solution by several iterations. The basic idea is to use the Equation(3) to calculate the PageRank value of the web page through iterations. By multiple iterations, the PageRank values gradually verge\footnote[3]{即趋于.} to stability. This method's code is also easier to be written. Therefore, we mainly describe the iterative method in next subsection. 
+But for the iterative method, it could acquire final solution by several iterations. The basic idea is to use the Equation (4) to calculate the PageRank value of the web page through iterations. By multiple iterations, the PageRank values gradually verge\footnote[3]{即趋于.} to stability. This method's code is also easier to be written. Therefore, we mainly describe the iterative method in next subsection. 
 
 \subsection{Iterative method}
 
+We use $PR(x, i)$ to represent the PageRank value of the web page $x$ at the $i$ iteration. At $i = 0$, we need to initialize the PageRank values for each web page.
 
+\begin{equation}
+	\label{eq:5}
+	PR(P_i, 0) = \frac{1}{n}
+\end{equation}
 
+According to Equation (4), we should iteratively calculate the PageRank values by the following formula:
 
+\begin{equation}
+	\label{eq:6}
+	PR(P_i, i+1) = \frac{(1 - c)}{n} + c \sum_{i} \frac{PR(P_j, i)}{L(P_i)}
+\end{equation}
 
-We can make a citation here. \cite{ref1}
+Besides, we know that Equation (4) can be shown in matrix form by Equation (2) and Equation (3). As a result, we can represent Equation (6) in matrix form:
 
-% \figurename~\ref{fig2} is a figure. You can see it at the top of the page.
+\begin{equation}
+	\label{eq:7}
+	\pi_{i+1} = \pi_i \cdot \widetilde{P} = cP\pi_i + \frac{1 - c}{n} e
+\end{equation}
 
-% \begin{figure}[!t]
-% 	\centering
-% 	\includegraphics[width=2.5in]{images/fig1.png}
-% 	\caption{This is a figure.}
-% 	\label{fig2}
-% \end{figure}
+According to Equation (6) or Equation (7), it can achieve stability through iterations with the condition:
 
-\subsection{The 3rd Section 2nd Subsection}
+\begin{equation}
+	\label{eq:8}
+	|PR(P_i, i+1) - PR(P_i, i)| < \varepsilon
+\end{equation}
+ 
+In this equation, \(\varepsilon\) is a very small value. At this time, the PageRank values could be considered as the final PageRank values for the web pages.
+
+\subsection{Improved iterative method}
+
+In the iterative method, calculating the PageRank values of all web pages still needs to conduct multiple complex matrix operation. This is a resource-consuming and time-consuming process. In this subsection, we will introduce a state-of-the-art iterative method, called the power iterative method, to reduce the complexity of the algorithm.
+
+We assume that the hyperlink matrix is $P$, and the vector $\pi$ is the stationary distribution vector, which satisfies Equation (3). We get: 
+
+\begin{equation}
+	\label{eq:9}
+	\pi = (cP + \frac{1 - c}{n}E)\pi = \widetilde{P}\pi
+\end{equation}
+
+It shows that $\pi$ is an eigenvector of the matrix $\widetilde{P}$.
+
+Then, we could calculate starting from vector $x(0)$, repeatedly calculate with the matrix $\widetilde{P}$: 
+
+\begin{equation}
+	\label{eq:10}
+	x(t+1) = \widetilde{P}x(t)
+\end{equation}
+
+until 
+\begin{equation}
+	\label{eq:11}
+	|x(t+1) - x(t)| < \varepsilon
+\end{equation}
+
+At this time, the vector $x(t)$ represents the PageRank vector $\pi$.
+
+\subsection{Code implementation}
+
+In this subsection, we will introduce the code implementation of the PageRank algorithm. The code is shown in Algorithm \ref{alg:pagerank}.
+
+\begin{algorithm}
+	\caption{Power Iteration for PageRank algorithm}
+	\label{alg:pagerank}
+	\begin{algorithmic}[1]
+	
+	\REQUIRE Hyperlinks matrix $P$, Number of iterations $num$, Damping factor $c$, PageRank vector $v$
+	
+	\STATE $P \gets P^\top$ \COMMENT{Transpose $P$}
+	\STATE $N \gets$ Number of columns in $P$
+	\STATE $v \gets \frac{1}{N} \cdot \mathbf{1}_N$ \COMMENT{Initialize PageRank vector with $\frac{1}{N}$}
+	\STATE $P_{\text{hat}} \gets c \cdot P + (1 - c) / N$ \COMMENT{Create hyperlinks matrix with damping factor}
+
+	\COMMENT{Iteration for $num$ times}
+	\FOR{$i \gets 1$ \TO $num$}
+		\STATE $v \gets P_{\text{hat}} \cdot v$ \COMMENT{Matrix multiplies vector}
+	\ENDFOR
+	
+	\RETURN $v$
+	
+	\end{algorithmic}
+\end{algorithm}
+
+In this algorithm, the parameter P represents the hyperlink matrix P, the parameter num represents the number of iterations, and the parameter c represents the damping factor c. The parameter v represents the PageRank vector.
 
 This is a simple subsection too.
 \section{Experiment}
@@ -250,24 +319,7 @@ This is a simple subsection too.
 
 This is a algorithm:
 
-\begin{algorithm}[H]
-	\caption{Weighted Tanimoto ELM.}\label{alg:alg1}
-	\begin{algorithmic}
-		\STATE
-		\STATE {\textsc{TRAIN}}$(\mathbf{X} \mathbf{T})$
-		\STATE \hspace{0.5cm}$ \textbf{select randomly } W \subset \mathbf{X}  $
-		\STATE \hspace{0.5cm}$ N_\mathbf{t} \gets | \{ i : \mathbf{t}_i = \mathbf{t} \} | $ \textbf{ for } $ \mathbf{t}= -1,+1 $
-		\STATE \hspace{0.5cm}$ B_i \gets \sqrt{ \textsc{max}(N_{-1},N_{+1}) / N_{\mathbf{t}_i} } $ \textbf{ for } $ i = 1,...,N $
-		\STATE \hspace{0.5cm}$ \hat{\mathbf{H}} \gets  B \cdot (\mathbf{X}^T\textbf{W})/( \mathbb{1}\mathbf{X} + \mathbb{1}\textbf{W} - \mathbf{X}^T\textbf{W} ) $
-		\STATE \hspace{0.5cm}$ \beta \gets \left ( I/C + \hat{\mathbf{H}}^T\hat{\mathbf{H}} \right )^{-1}(\hat{\mathbf{H}}^T B\cdot \mathbf{T})  $
-		\STATE \hspace{0.5cm}\textbf{return}  $\textbf{W},  \beta $
-		\STATE
-		\STATE {\textsc{PREDICT}}$(\mathbf{X} )$
-		\STATE \hspace{0.5cm}$ \mathbf{H} \gets  (\mathbf{X}^T\textbf{W} )/( \mathbb{1}\mathbf{X}  + \mathbb{1}\textbf{W}- \mathbf{X}^T\textbf{W}  ) $
-		\STATE \hspace{0.5cm}\textbf{return}  $\textsc{sign}( \mathbf{H} \beta )$
-	\end{algorithmic}
-	\label{alg1}
-\end{algorithm}
+
 
 \section{Results}
 
