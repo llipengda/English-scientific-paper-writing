@@ -17,7 +17,10 @@
 \usepackage{balance}
 \usepackage{textcase}
 \usepackage{setspace}
+\usepackage[justification=centering]{caption}
 \setmainfont{Times New Roman}[SmallCapsFont=TeX Gyre Termes:+smcp]
+\newenvironment*{proof}{{\noindent\it Proof}\quad}
+
 % rule to break words
 \hyphenation{}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -59,16 +62,16 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \subsection{Research Background}
 
-\lettrine{W}{ith} 
-the proliferation of the Internet technology, the explosively increasing amount of web pages on the World Wide Web has created the demand for the web searching engines with high-efficiency and high-effectiveness. 
+\lettrine{W}{ith}
+the proliferation of the Internet technology, the explosively increasing amount of web pages on the World Wide Web has created the demand for the web searching engines with high-efficiency and high-effectiveness.
 For the biggest search engine company Google, which held a global market share of 91.54\% until November 2023\footnote[1]{Search Engine Market Share Worldwide, Statcounter GlobalStats, 2023, https:
-//gs.statcounter.com/search-engine-market-share}, it is of primary significance to develop a powerful search algorithm to provide users with the most relevant and useful results in the shortest time. 
+	//gs.statcounter.com/search-engine-market-share}, it is of primary significance to develop a powerful search algorithm to provide users with the most relevant and useful results in the shortest time.
 
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=2.5in]{images/fig2.png}
-    \caption{Google's market share in the global search engine market from December 2022 to November 2023.}
-    \label{fig1}
+	\centering
+	\includegraphics[width=2.5in]{images/fig2.png}
+	\caption{Google's market share in the global search engine market from December 2022 to November 2023.}
+	\label{fig1}
 \end{figure}
 
 Previous studies on web searching algorithms have proven that keyword matching algorithm\cite{ref1} and vector space model\cite{ref2} were efficient and effective in the early days of the Internet.
@@ -80,8 +83,8 @@ To overcome the aformentioned chanllenge, Google has developed a state-of-the-ar
 
 \subsection{Origin of the PageRank Algorithm} 
 
-PageRank is an algorithm developed by Larry Page and Sergey Brin in the late 1990s to measure the importance of web pages. 
-Originally created for the Google search engine, it is named after one of the founder of Google Larry Page. Except for the searching use, the Google search engine also takes advantage of this algorithm to analyze the relevance and importance of web pages, considering it as one of the factors to evaluate the effectiveness of web page optimization. 
+PageRank is an algorithm developed by Larry Page and Sergey Brin in the late 1990s to measure the importance of web pages.
+Originally created for the Google search engine, it is named after one of the founder of Google Larry Page. Except for the searching use, the Google search engine also takes advantage of this algorithm to analyze the relevance and importance of web pages, considering it as one of the factors to evaluate the effectiveness of web page optimization.
 
 \subsection{Outline of this Paper}
 
@@ -89,20 +92,15 @@ In this paper, we present the following insights and research:
 \begin{itemize}
 	\item The foundational principles and implementation of the PageRank algorithm.(Section 3, Subsection A)
 	\item Analysis of its performance and the impact of the factors that can influence the search results and page rankings.(Section 4, Subsection A)
-	\item Discussion on potential enhancements and exploration of the possibility of other factors that can improve PageRank performance.(Section 4, Subsection B)
+	\item Discussion on potential enhancements and exploration of the possibility of other factors that can improve PageRank performance.(Section 5, Subsection A and B)
 \end{itemize}
 
 In the next section, we introduce the preliminaries and the related work of the PageRank algorithm.
 
 \section{Related Work}
 
-These section shows the brief concept of the PageRank algorithm. Theses concept motivate the design of our research.
+This section shows the brief concept of the PageRank algorithm. Theses concept motivate the design of our research.
 
-%这里需要改，改成之前的算法介绍，不要用这个
-\subsection{TF-IDF Algorithm}
-%https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=83997ceff5acd718cd22c5efab4fe2264938676c
-%https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=715c4e7acdf5bf848e6c988d9f116a65b63a0501
-%这里也需要国产化一下
 \subsection{Synopsis of PageRank}
 
 PageRank is a link analysis algorithm and it assigns a numerical weighting to each web page of all hyperlinked web pages, aiming to measure the relative importance of each web page of the collection based on its parent web page's importance. This algorithm can be applied to any collection containing mutual references between elements.We call the weight value of any element E as ``PageRank of E", which is represented symbolically as $\boldsymbol{PR(E)}$. Other factors such as ``Author Rank" can also affect the weight value of an element.
@@ -133,7 +131,7 @@ Stationary distribution represents the stable state of the Markov chain after lo
 It measures the frequency of each state in the entire chain, giving the Markov chain stable operation of each
 the proportion of time spent in the state.
 
-Assumeing that when we browse a page on the Internet, the process of selecting the next interface has no collection with that we browse before but only depends on the current page. This is a simple finite-state, discrete-time stochastic process that can be described using a Markov chain.
+Assumeing that when we browse a page on the Internet, the process of selecting the next interface has no collection with that we browse before but only depends on the current page. This is a simple finite-state, discrete-time stochastic process that can be by described using a Markov chain.
 
 \subsection{PageRank Algorithm and Eigenvalues of  Matrix}
 
@@ -160,7 +158,7 @@ We can make a citation here. \cite{ref1}
 \subsection{The 3rd Section 2nd Subsection}
 
 This is a simple subsection too.
-\section{Experiment}
+\section{Experiment and results}
 
 This is a simple section.
 \subsection{The 4th Section 1st Subsection}
@@ -190,24 +188,165 @@ This is a algorithm:
 		\STATE \hspace{0.5cm}$ N_\mathbf{t} \gets | \{ i : \mathbf{t}_i = \mathbf{t} \} | $ \textbf{ for } $ \mathbf{t}= -1,+1 $
 		\STATE \hspace{0.5cm}$ B_i \gets \sqrt{ \textsc{max}(N_{-1},N_{+1}) / N_{\mathbf{t}_i} } $ \textbf{ for } $ i = 1,...,N $
 		\STATE \hspace{0.5cm}$ \hat{\mathbf{H}} \gets  B \cdot (\mathbf{X}^T\textbf{W})/( \mathbb{1}\mathbf{X} + \mathbb{1}\textbf{W} - \mathbf{X}^T\textbf{W} ) $
-		\STATE \hspace{0.5cm}$ \beta \gets \left ( I/C + \hat{\mathbf{H}}^T\hat{\mathbf{H}} \right )^{-1}(\hat{\mathbf{H}}^T B\cdot \mathbf{T})  $
-		\STATE \hspace{0.5cm}\textbf{return}  $\textbf{W},  \beta $
+		\STATE \hspace{0.5cm}$ \boldsymbol{\beta} \gets \left ( I/C + \hat{\mathbf{H}}^T\hat{\mathbf{H}} \right )^{-1}(\hat{\mathbf{H}}^T B\cdot \mathbf{T})  $
+		\STATE \hspace{0.5cm}\textbf{return}  $\textbf{W},  \boldsymbol{\beta} $
 		\STATE
 		\STATE {\textsc{PREDICT}}$(\mathbf{X} )$
 		\STATE \hspace{0.5cm}$ \mathbf{H} \gets  (\mathbf{X}^T\textbf{W} )/( \mathbb{1}\mathbf{X}  + \mathbb{1}\textbf{W}- \mathbf{X}^T\textbf{W}  ) $
-		\STATE \hspace{0.5cm}\textbf{return}  $\textsc{sign}( \mathbf{H} \beta )$
+		\STATE \hspace{0.5cm}\textbf{return}  $\textsc{sign}( \mathbf{H} \boldsymbol{\beta} )$
 	\end{algorithmic}
 	\label{alg1}
 \end{algorithm}
 
-\section{Results}
 
-This is the results area. We should write some very nb results here.
+\section{Discussion on potential enhancements}
+
+This section we will talk about the flaws the PageRank has and the way to improve it.
+\subsection{Flaws}
+
+Although PageRank is a classic web page ranking algorithm, it also has some flaws.
+
+The most obvious flaw is call ``uniform access assumption''. It assumes that users have an equal probability to access all web pages. Apparently, it is not always true. Users' hobbies and social areas may affect this possibility.
+
+Except the ``uniform access assumption'', there are other flaws:
+\begin{itemize}
+	\item Vulnerability to spam links is a serious problem. Spam links are those that exist on low-quality page or generated through SEO techniques. Their presence can influence the entire page ranking system.
+	\item That the PageRank algorithm is its difficulty in handling dynamic web pages is another problem. If the content of a web page changes frequently, the PageRank algorithm may not be able to reflect these changes in a timely manner. For example, some news websites publish a large number of news every day. If the PageRank algorithm only calculates it once when the website is updated, the importance of these news will not be reflected in the ranking in time.
+	\item Simultaneously, PageRank also suffers from data sparsity and lack of topics. In some cases, the PageRank may overlook some important web pages due to a lack of links to web pages relevant to the search topic. In addition, because PageRank only considers link structure and ignores the content and topic of web pages, it may not adapt well to searches in some specific areas.
+\end{itemize}
+
+\subsection{Way of Enhancements}
+
+\subsubsection{Matrix Decomposition}
+The number of web pages is extremely large on the Internet. So how to calculate the PageRank value of each page is a key issue. One way to solve the issue is to do this is to explore the specific properties of the hyperlink matrix $P$.
+
+Consider the hyperlink matrix $P$ of the following form:
+
+\begin{equation}
+	\label{eq:114514}
+	P=
+	\begin{bmatrix}
+		P_1    & \cdots & 0      \\
+		\vdots & \ddots & \vdots \\
+		0      & \cdots & P_N
+	\end{bmatrix}
+\end{equation}
+
+The block $ P_I (I = 1, \ldots, N)$ on the diagonal represents the link within group $I$. We use $n_I$ to represent the number of pages within Group $I$. Each block $I$ does not communicate with the outside world, but there may be a complex relation inside.
+
+Next, let's consider the transition matrix corresponding to the hyperlink matrix \eqref{eq:114514} $\widetilde{P} = cP  + (1-c)(1/n)E$. Let the vector $\boldsymbol{\pi}$ be the PageRank vector of the transition matrix $\widetilde{P}$, which satisfies $\boldsymbol{\pi}\widetilde{P}=\boldsymbol{\pi}, \boldsymbol{\pi e}=1$. In addition, we define the perturbation matrix of block $I$.
+
+\begin{equation}
+	\widetilde{P_I}
+	=cP_I + \frac{1-c}{n_I}E
+\end{equation}
+Next let the vector $\boldsymbol{\pi}_I$
+PageRank vector of $\widetilde{P}$, and make
+\begin{equation}
+	\boldsymbol{\pi}_I\widetilde{P}_I = \boldsymbol{\pi}_I, \boldsymbol{\pi}_I\boldsymbol{e}=1
+\end{equation}
+
+We can demonstrate the following formula.
+
+\begin{equation}
+	\label{eq:4444}
+	\boldsymbol{\pi}=\frac{1}{n}(n_1\boldsymbol{\pi}_1,  n_2\boldsymbol{\pi}_2,\ldots,n_N\boldsymbol{\pi}_N)
+\end{equation}
+
+\begin{proof}
+
+
+	denfine:
+	\begin{equation}
+		\widetilde{E}=
+		\begin{bmatrix}
+			\frac{1}{n_1}E & \cdots & 0              \\
+			\vdots         & \ddots & \vdots         \\
+			0              & \cdots & \frac{1}{n_N}E
+		\end{bmatrix}
+	\end{equation}
+
+	To the $\boldsymbol{\pi}$ in \eqref{eq:4444}
+	\begin{equation}
+		\begin{aligned}
+			\boldsymbol{\pi}\widetilde{P} & = \boldsymbol{\pi}[cP+(1-c)\overline{E}                                                                   \\
+			                              & -(1-c)\overline{E}+(1-c)(1/n)E]                                                                           \\
+			                              & =\boldsymbol{\pi}[cP+(1-c)\overline{E}]                                                                   \\
+			                              & +\boldsymbol{\pi}[(1-c)\overline{E}+(1-c)(1/n)E]                                                          \\
+			                              & =(\frac{n_1}{n}\boldsymbol{\pi}_1\widetilde{P_1},\ldots,\frac{n_N}{n}\boldsymbol{\pi}_N\widetilde{P_N})   \\
+			                              & +(1-c)(1/n)e^T-(1-c)(1/n)e^T                                                                              \\
+			                              & =\frac{1}{n}(n_1\boldsymbol{\pi}_1,  n_2\boldsymbol{\pi}_2,\ldots,n_N\boldsymbol{\pi}_N) \\
+			                              & =\boldsymbol{\pi}
+		\end{aligned}
+	\end{equation}
+
+\end{proof}
+Since $\widetilde{P}$ 's PageRank vector is unique, $\boldsymbol{\pi}$ is $\widetilde{P}$ 's PageRank vector.
+
+The proof of this theorem is relatively easy. This decomposition property can also be expressed by the following formula:
+\begin{equation}
+	\boldsymbol{\pi}=
+	\frac{1-c}{n}e^T[1-cP]^{-1}
+\end{equation}
+
+The hyperlink matrix is extremely sparse, and the time complexity is close to linear in the number of pages. Since we have broken down the hyperlink matrix, we can process each part independently and store different parts of the PageRank approximation vector in different databases to save time and space.
+
+
+
+\subsubsection{ Topic-sensitive PageRank}
+
+The Topic-sensitive PageRank is an extension of the PageRank algorithm.It is designed to improve the accuracy of search results. Unlike the traditional PageRank, it no longer only considers the global importance of the page, but instead ranks pages based on the importance of a given topic. This algorithm is more effective for search results that require a specific topic.
+The main idea of Topic-sensitive PageRank is to build multiple PageRank vectors based on a predefined topic.Each vector has its own topic.We use them to calculate the weight of a page. In a regular keyword search query, we can use the topic of the query keyword to calculate a page's topic-sensitive PageRank score Number. In contextual search, the topic of the queried context can be used to calculate the topic-sensitive PageRank score for the page. By using these (pre-calculated) linear combinations of topic-biased PageRank vectors, it is possible to generate a context-specific page importance score at query time.This will generate more accurate ranking results than using a single generic PageRank vector.
+\begin{figure*}[!t]
+	\centering
+	\includegraphics[width=\textwidth]{images/fig3.png}
+	\caption{A system diagram that uses a topic-sensitive PageRank.}
+	\label{fig3}
+\end{figure*}
+
+An overview of Topic-sensitive is provided below. During offline web crawler processing, we generated 16 topic-sensitive PageRank vectors by using top-level category URLs from OpenDirectoryProject (ODP, a web directory with more than 2.5 million URLs). At query time, we calculate the similarity of between the query (or any available context) and each topic. Then, instead of using a single global rank vector, we use topic-sensitivity linear combination of vectors, weighted using the similarity. By using a group of rank vectors, we can more accurately identify the most important pages relevant to a particular query or query context. Since link-based computation is processed offline in the preprocess, the query time cost is no higher than the normal PageRank.
+\subsubsection{Sparse Matrix Optimization}
+A sparse matrix or sparse array is a matrix in which most of the elements are zero in numerical analysis and scientific computing. A common criterion is that the number of non-zero elements is roughly equal to the number of rows or columns. By contrast, if most of the elements are non-zero, the matrix is considered dense.
+
+There is an example of sparse matrix.
+
+\begin{equation}
+	A_{6\times 7}=
+	\begin{bmatrix}
+		0&0&1&0&0&0&0\\
+		0&2&0&0&0&0&0\\
+		3&0&0&0&0&0&0\\
+		0&0&0&0&6&0&0\\
+		0&0&0&0&0&7&4
+	\end{bmatrix}
+\end{equation}
+
+The most computationally intensive part of the PageRank is to calculate the link weight between web pages that involves summing the outbound links of each web page. Since the number of outbound links for most web pages is very large, and many elements of it is zero. So, we can use the sparse matrix algorithm to solve the PageRank Matrix.That means we only need solve the zero elements.
+
+One way to optimize a sparse matrix is to use the Compressed Sparse Row (CSR) format. In the CSR format, each non-zero element in the matrix saves its value, column index, and row offset. The row offset indicates the position of the first non-zero element in each row. The operation makes each row of the matrix can be represented by a single array. This approach can greatly reduce the computational complexity because only non-zero elements need to be processed. In the PageRank, the use of CSR format reduces computation time and memory consumption, allowing the algorithm to handle larger collections of web pages.
+
+There is brief institution about CSR.
+
+
+For a given block-size parameter $\boldsymbol{\beta}$, CSB partitions the $n\times n$
+matrix $A$ into $n^2/\boldsymbol{\beta}^2$ equal-sized $\boldsymbol{\beta} \times \boldsymbol{\beta}$ square blocks.
+\begin{equation}
+	\begin{pmatrix}
+		A_{00}                       & A_{01}                       & \cdots & A_{0,n/\boldsymbol{\beta}-1}                      \\
+		A_{10}                       & A_{11}                       & \cdots & A_{1,n/\boldsymbol{\beta}-1}                      \\
+		\vdots                       & \vdots                       & \ddots & \vdots                                            \\
+		A_{n/\boldsymbol{\beta}-1,0} & A_{n/\boldsymbol{\beta}-1,1} & \cdots & A_{n/\boldsymbol{\beta}-1,n/\boldsymbol{\beta}-1}
+	\end{pmatrix}
+\end{equation}
+where the block $A_{ij}$ is the $\boldsymbol{\beta} \times \boldsymbol{\beta}$ submatrix of $A$ containing elements falling in rows $i\boldsymbol{\beta}, i\boldsymbol{\beta}+1, \ldots, (i+1)\boldsymbol{\beta}-1$ and columns
+$j\boldsymbol{\beta}, j\boldsymbol{\beta}+1, \ldots, (ji+1)\boldsymbol{\beta}-1$ of the matrix. For simplicity of presentation,
+we shall assume that $\boldsymbol{\beta} $ is an exact power of 2 and that it divides $n$;
+relaxing these assumptions is straightforward.
 
 \section{Conclusion}
 
-This is the conclusion area. We should write a very nb conclusion here.
-
+We research the PageRank briefly and support some possible way to optimize it. The link problem in web network can be transformed into the problem of graph theory and matrix. In the experiment, we use iterative calculation and other methods to explore the influence of damping factor on the efficiency of the algorithm. Theoretically, the flaws of the algorithm and the optimization method are analyzed. One interesting but also persistent effort
+is to study PageRank is that we believe it will influence the AI and the future deeply.
 
 
 \begin{thebibliography}{1}
