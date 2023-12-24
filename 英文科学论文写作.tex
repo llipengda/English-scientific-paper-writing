@@ -124,9 +124,6 @@ The weight value of a web page could be affected by other factors, such as "Auth
 
 A web page's PageRank is created by all World Wide Web pages as nodes and hyperlinks as edge, as Fig.2 shows. The PageRank value indicates the importance of a web page, aiming to measure the relative importance of each web page based on its parent web page's importance, namely the PageRank of all pages linking to it. And it is calculated recursively in the implementation of the algorithm. Besides, a hyperlink to this web page is called ``a vote of support for this web page". For instance, a page linked to more pages will have more votes, and also higher PageRank. 
 
-%TODO 这不应该是垃圾邮件的那部分吗 应该在优化部分哇
-In actual situations, PageRank is susceptible to be exploited, causing the fake search results. For example, some web page owners may deliberately create a large number of web pages so as to link to their own web pages, which will increase the PageRank of their web pages. Also, relevant research tends to focus on some web pages' PageRank affected by errors. In order to solve this problem, Google set up a new attribute ``nofollow'' for all web links, which allows web-masters and blogger to create some links that are not important, so that these links do not serve as the ``vote''.
-
 \subsection{Markov Chain}
 
 Markov chain\footnote[1]{即马尔可夫链.}, also called discrete-time\footnote[2]{即离散时间的.} Markov chain, is named after the Russian mathematician Andrei Markov. As the basis of the PageRank algorithm, it helps determine the state of each web page. Also, Markov chain has been applied to multiple statistical models.
@@ -469,23 +466,28 @@ According to the assumption of the Markov chain and general habbit of browsing t
 
 \section{Discussion on potential enhancements}
 
-This section we will talk about the flaws the PageRank has and the way to improve it.
+In this section, we will discuss the flaws of the PageRank algorithm and enhancements.
+
 \subsection{Flaws}
 
-Although PageRank is a commonly-used web page ranking algorithm, it has some flaws.
+Although PageRank is a widely used web page ranking algorithm, it has several flaws.
 
-The most obvious flaw is called ``uniform access assumption''. It assumes that users have an equal probability to access all web pages. Apparently, it is not always true. Users' hobbies and social areas may affect this possibility.
+The biggest flaw is called ``uniform access assumption''\footnote[1]{即均匀访问假设.}. It assumes that users have an equal probability to access all web pages. Apparently, it is not true. Users' hobbies and social areas may affect this possibility.
 
 Except the ``uniform access assumption'', there are other flaws:
 \begin{itemize}
-	\item Vulnerability to spam links is a serious problem. Spam links are those that exist on low-quality page or generated through SEO techniques. Their presence can influence the entire page ranking system.
-	\item That the PageRank algorithm is its difficulty in handling dynamic web pages is another problem. If the content of a web page changes frequently, the PageRank algorithm may not be able to reflect these changes in a timely manner. For example, some news websites publish a large number of news every day. If the PageRank algorithm only calculates it once when the website is updated, the importance of these news will not be reflected in the ranking in time.
-	\item Simultaneously, PageRank also suffers from data sparsity and lack of topics. In some cases, the PageRank may overlook some important web pages due to a lack of links to web pages relevant to the search topic. In addition, because PageRank only considers link structure and ignores the content and topic of web pages, it may not adapt well to searches in some specific areas.
+	\item \textbf{Handling a large number of web pages is time-consuming}. The PageRank algorithm needs to calculate the PageRank value of each web page, which is time-consuming when the number of web pages is too large.
+	\item \textbf{Vulnerability to spam links is a serious problem}. Spam links\footnote[2]{即垃圾链接.} are those that exist on low-quality web pages. Their presence can influence the entire page ranking system. In actual situations, PageRank is susceptible to be exploited, causing the fake search results. For example, some web page owners may deliberately create a large number of web pages so as to point to their own web pages, which will increase the PageRank of their web pages. Also, relevant research tends to focus on some web pages' PageRank affected by errors. In order to solve this problem, Google set up a new attribute ``nofollow'' for all web links, which allows web-masters and blogger to create some links that are not important, so that these links do not serve as the ``vote''.
+	\item \textbf{Its difficulty in handling dynamic web pages}. If the content of a web page changes frequently, the PageRank algorithm may not be able to reflect these changes in a timely manner. For example, a news websites publishes a large number of news every day. If the search engine calculates its PageRank value once, the importance of these news will not be shown in the ranking in time.
+	\item \textbf{PageRank also suffers from data sparsity and lack of topics}. In some cases, the PageRank may overlook some important web pages due to a lack of links to web pages relevant to the search topic. In addition, because PageRank only considers link structure but ignores the topic and content of web pages, it may not provide the best results in some specific areas.
 \end{itemize}
 
 \subsection{Way of Enhancements}
 
+In last subsection, we discussed the flaws of the PageRank algorithm. Some of them could be solved by the specific methods in this subsection.
+
 \subsubsection{Matrix Decomposition}
+
 The number of web pages is extremely large on the Internet. So how to calculate the PageRank value of each page is a key issue. One way to solve the issue is to do this is to explore the specific properties of the hyperlink matrix $P$.
 
 Consider the hyperlink matrix $P$ of the following form:
