@@ -128,13 +128,13 @@ In actual situations, PageRank is susceptible to be exploited, causing the fake 
 
 Markov chain\footnote[1]{即马尔可夫链.}, also called discrete-time\footnote[2]{即离散时间的.} Markov chain, is named after the Russian mathematician Andrei Markov. As the basis of the PageRank algorithm, it helps determine the state of each web page. Also, Markov chain has been applied to multiple statistical models.
 
-The Markov chain is a random process that transition from a state to another. The process is ``memoryless'', which means the probability distribution of the next state could merely be determined by the current state. In other words, it is irrelevant to the previous events in the time sequence. This special property ``memoryless'' is called Markov property. 
+The Markov chain is a random process that transition from a state to another in the state space\footnote[3]{即状态空间.}. The process is ``memoryless'', which means the probability distribution of the next state could merely be determined by the current state. In other words, it is irrelevant to the previous events in the time sequence. This special property ``memoryless'' is called Markov property. 
 
 At each step of the Markov chain, the system can change from one state to another or remain unchanged, according to the probability distribution. State changes are called transitions, while the probabilities associated with different state changes are called transition probabilities.
 
-If the Markov chain runs for enough time, the distribution of its state will reach a stationary distribution\footnote[3]{即平稳分布.}, which remains unchanged. If the Markov chain has $n$ states, the transition matrix is $P$, and the stationary distribution vector is $\boldsymbol{\pi}$, then the equation $\boldsymbol{\pi} = \boldsymbol{\pi} P$ must be satisfied.
+If the Markov chain runs for enough time, the distribution of its state will reach a stationary distribution\footnote[1]{即平稳分布.}, which remains unchanged. If the Markov chain has $n$ states, the transition matrix is $P$, and the stationary distribution vector is $\boldsymbol{\pi}$, then the equation $\boldsymbol{\pi} = \boldsymbol{\pi} P$ must be satisfied.
 
-This means that the stationary distribution vector $\boldsymbol{\pi}$ is an eigenvector\footnote[4]{即特征向量.} of the transition matrix $P$ with an eigenvalue\footnote[5]{即特征值.} of 1. A stationary distribution has the following properties:
+This means that the stationary distribution vector $\boldsymbol{\pi}$ is an eigenvector\footnote[2]{即特征向量.} of the transition matrix $P$ with an eigenvalue\footnote[3]{即特征值.} of 1. A stationary distribution has the following properties:
 \begin{enumerate}
 	\item [1.] $\boldsymbol{\pi_i}\geq0$, and $\sum\boldsymbol{\pi_i}=1$. Each element of a stationary distribution is non-negative and sums to 1, representing probability.
 	\item [2.] $\boldsymbol{\pi} = \boldsymbol{\pi} P$. The stationary distribution vector is the eigenvector of the transition matrix with an 1 eigenvalue. If it is currently stationary, then after one step of transition, the state distribution will be still stationary.
@@ -157,6 +157,49 @@ The eigenvalue of the matrix is also used by the PageRank algorithm. In the next
 \section{Main Method and Theory}
 
 \subsection{Foundational principles}
+
+The primary implementation of the PageRank algorithm is based on the matrix operation.
+Initially, we assume that there are $n$ web pages on the Internet. We can define an $n \times n$ hyperlink matrix $P$ as follows: If web page $i$ has $k (k > 0)$ hyperlinks pointing to other web pages, and if there is a hyperlink from $i$ to $j$, then $P_{ij} = 1/k$. Otherwise, $P_{ij} = 0$.
+
+\begin{equation}
+	\label{eq:1}
+	Pij = 
+	\begin{cases}
+		\frac{1}{k} & \text{if there is a hyperlink from $i$ to $j$.} \\
+		0 & \text{otherwise.}
+	\end{cases}
+\end{equation}
+
+Then we can acquire the hyperlink matrix $P$ of the web pages, which is also the graph of the hyperlinked web pages.
+To ensure connectivity in this graph, we assume that visitors browse randomly any web page at a certain probability. Therefore, it can be defined as stationary distribution of a Markov chain. And its state space is the set of all web pages. The transition matrix is:
+\begin{equation}
+	\label{eq:2}
+	\widetilde{P} = cP + \frac{(1 - c)}{n}E
+\end{equation}
+
+In this equation, $E$ is a matrix that all elements equal to 1, $n$ is the number of web pages, and \(c (c \in (0,1))\) is a special parameter called \textbf{damping factor}. It represents the probability that a vistor will not finish browsing the current web page, commonly set to $0.85$\cite{ref4}.
+
+Since the matrix $\widetilde{P}$ is a random matrix, nonperiodic\footnote[1]{即非周期性的.}, and irreducible\footnote[2]{即不可约的.}. According to the Markov chains\cite{ref5}, a unique stationary distribution vector π exists, which is an eigenvector of the transition matrix $\widetilde{P}$ with an eigenvalue of $1$\cite{ref6}. 
+
+\begin{equation}
+	\label{eq:3}
+	\pi \widetilde{P} = \pi , \pi e = 1
+\end{equation}
+
+In these equations, e is a column vector with all elements equal to 1. 
+
+A vector π satisfying equation(3) is called the \textbf{PageRank vector}. For instance, if a visitor keeps browsing a web page with probability $c$, and jumps to a random page with probability $1 - c$, then $\pi_i$ can be understood as the stationary probability of the visitor browsing the web page $i$.
+
+Ultimately, each value of the PageRank vector represents the PageRank value of each web page. 
+
+Besides, the PageRank values could be described using another formula.
+
+\begin{equation}
+	\label{eq:4}
+	\text{PR}(A) = \frac{1 - c}{n} + c \sum_{i} \frac{\text{PR}(T_i)}{L(T_i)}
+\end{equation}
+
+In this equation, $A$ is the web page we manage to calculate the PageRank value,  $\text{PR}(T_i)$ is the PageRank value of other web page $i$ with a hyperlink pointing to $A$, and $L(T_i)$ indicates the number of hyperlinks from other web page $i$  to any other web page $j$ (See the value $k$ in Equation (1)). It is obvious that Equations (2) and (3) are the matrix form of Equation (4).
 
 
 
@@ -184,10 +227,6 @@ This is a simple subsection.
 
 This is an equation:
 
-\begin{equation}
-	\label{eq:1}
-	e^{\pi i} + 1 = 0
-\end{equation}
 You can ref it by see\eqref{eq:1}.
 
 \subsection{The 4th Section 2nd Subsection}
@@ -236,6 +275,10 @@ This is the conclusion area. We should write a very nb conclusion here.
 	\bibitem{ref4}
 	Sergey Brin, Lawrence Page, {\it{The Anatomy of a Large-Scale Hypertextual Web
 	Search Engine}}. Computer Science Department, Stanford University, Stanford, CA 94305, USA, 1998.
+	\bibitem{ref5}
+	RajeevMotwani, PrabhakarRaghavan, {\it{Randomized Algorithms.}}. Cambridge University Press, United Kingdom, 1995.
+	\bibitem{ref6}
+	Avrachenkov K, Litvak N, {\it{Decomposition of the google pagerank and optimallinking strategy[D].}} INRIA, 2004.
 
 
 \end{thebibliography}
