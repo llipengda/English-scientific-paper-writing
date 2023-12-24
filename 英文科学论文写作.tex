@@ -54,7 +54,7 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \end{abstract}
 
 \begin{IEEEkeywords}
-	Keyword1, Keyword2, Keyword3
+	PageRank, Search Engine, Enhancements
 \end{IEEEkeywords}
 
 
@@ -124,9 +124,6 @@ The weight value of a web page could be affected by other factors, such as "Auth
 
 A web page's PageRank is created by all World Wide Web pages as nodes and hyperlinks as edge, as Fig.2 shows. The PageRank value indicates the importance of a web page, aiming to measure the relative importance of each web page based on its parent web page's importance, namely the PageRank of all pages linking to it. And it is calculated recursively in the implementation of the algorithm. Besides, a hyperlink to this web page is called ``a vote of support for this web page". For instance, a page linked to more pages will have more votes, and also higher PageRank. 
 
-%TODO 这不应该是垃圾邮件的那部分吗 应该在优化部分哇
-In actual situations, PageRank is susceptible to be exploited, causing the fake search results. For example, some web page owners may deliberately create a large number of web pages so as to link to their own web pages, which will increase the PageRank of their web pages. Also, relevant research tends to focus on some web pages' PageRank affected by errors. In order to solve this problem, Google set up a new attribute ``nofollow'' for all web links, which allows web-masters and blogger to create some links that are not important, so that these links do not serve as the ``vote''.
-
 \subsection{Markov Chain}
 
 Markov chain\footnote[1]{即马尔可夫链.}, also called discrete-time\footnote[2]{即离散时间的.} Markov chain, is named after the Russian mathematician Andrei Markov. As the basis of the PageRank algorithm, it helps determine the state of each web page. Also, Markov chain has been applied to multiple statistical models.
@@ -180,9 +177,9 @@ To ensure connectivity in this graph, we assume that visitors browse randomly an
 	\widetilde{P} = cP + \frac{(1 - c)}{n}E
 \end{equation}
 
-In this equation, $E$ is a matrix that all elements equal to 1, $n$ is the number of web pages, and \(c (c \in (0,1))\) is a special parameter called \textbf{damping factor}. It represents the probability that a vistor will not finish browsing the current web page, commonly set to $0.85$\cite{ref4}.
+In this equation, $E$ is a matrix that all elements equal to 1, $n$ is the number of web pages, and \(c (c \in (0,1))\) is a special parameter called \textbf{damping factor}\footnote[1]{即阻尼系数，后文会介绍到.}. It represents the probability that a vistor will not finish browsing the current web page, commonly set to $0.85$\cite{ref4}.
 
-Since the matrix $\widetilde{P}$ is a random matrix, nonperiodic\footnote[1]{即非周期性的.}, and irreducible\footnote[2]{即不可约的.}. According to the Markov chains\cite{ref5}, a unique stationary distribution vector π exists, which is an eigenvector of the transition matrix $\widetilde{P}$ with an eigenvalue of $1$\cite{ref6}. 
+Since the matrix $\widetilde{P}$ is a random matrix, nonperiodic\footnote[2]{即非周期性的.}, and irreducible\footnote[3]{即不可约的.}. According to the Markov chains\cite{ref5}, a unique stationary distribution vector π exists, which is an eigenvector of the transition matrix $\widetilde{P}$ with an eigenvalue of $1$\cite{ref6}. 
 
 \begin{equation}
 	\label{eq:3}
@@ -268,7 +265,8 @@ Then, we could calculate starting from vector $x(0)$, repeatedly calculate with 
 	x(t+1) = \widetilde{P}x(t)
 \end{equation}
 
-until 
+until:
+
 \begin{equation}
 	\label{eq:11}
 	|x(t+1) - x(t)| < \varepsilon
@@ -306,44 +304,191 @@ In this algorithm, the parameter P represents the hyperlink matrix P, the parame
 
 \section{Experiment and results}
 
-This is a simple section.
-\subsection{The 4th Section 1st Subsection}
+In this section, we will analyze the PageRank algorithm by demonstrating an example. Besides, we will test the damping factor that significantly affects PageRank.
 
-This is a simple subsection.
+\subsection{Factors that affect PageRank}
 
-This is an equation:
+Consider a simple network consisting of four web pages, shown in Fig.3.
 
-You can ref it by see\eqref{eq:1}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig5.png}
+	\caption{A simple network consisting of four web pages.}
+	\label{fig4}
+\end{figure}
 
-\subsection{The 4th Section 2nd Subsection}
+We could get its hyperlink matrix $P$ by using Equation (1):
+\begin{equation}
+	\label{eq:12}
+	P = \begin{bmatrix}
+		0 & \frac{1}{2} & \frac{1}{2} & 0 \\
+		0 & 0 & 1 & 0 \\
+		1 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 \\
+		\end{bmatrix}
+\end{equation}
 
-This is a simple subsection too.
+We assumes that the damping factor $c$ is $0.85$, as Google commonly uses, and then calculate its transition matrix.
 
-This is a algorithm:
+\begin{equation}
+	\label{eq:13}
+	\widetilde{P} = \begin{bmatrix}
+		0.0375 & 0.4625 & 0.4625 & 0.0375 \\
+		0.0375 & 0.0375 & 0.8875 & 0.0375 \\
+		0.8875 & 0.0375 & 0.0375 & 0.0375 \\
+		0.0375 & 0.0375 & 0.8875 & 0.0375 \\
+		\end{bmatrix}
+\end{equation}
 
+In this matrix, $\widetilde{P}_{ij}$ represents the probability that visitors choose to jump from page $i$ to page $j$.
 
+We assume that $t$ is the iteration number. When $t = 0$, the initial PageRank values for each web page are set to 0.25.
 
+\begin{equation}
+	\label{eq:14}
+	x(0) = \begin{bmatrix}
+		0.25 \\
+		0.25 \\
+		0.25 \\
+		0.25 \\
+		\end{bmatrix}
+\end{equation}
+
+After the first iteration, we get:
+
+\begin{equation}
+	\label{eq:15}
+	x(1) = \begin{bmatrix}
+		0.25 \\
+		0.14375 \\
+		0.56875 \\
+		0.0375 \\
+		\end{bmatrix}
+\end{equation}
+
+We could draw the transition of the PageRank values from $t = 0$ to $t = 1$ by graph:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig6.png}
+	\caption{The transition of the PageRank values from $t = 0$ to $t = 1$.}
+	\label{fig6}
+\end{figure}
+
+In each iteration, the PageRank value of the current web page multiplies the damping factor c, so that it evenly transferred to the web page that need to be calculated. 
+
+As iterations continue, the PageRank values tend to be stable:
+
+\begin{equation}
+	\label{eq:16}
+	x(1) = \begin{bmatrix}
+		0.37252685 \\
+		0.19582391 \\
+		0.39414924 \\
+		0.0375 \\
+		\end{bmatrix}
+\end{equation}
+
+We could also draw the line chart to describe the changes in PageRank values during the iteration process:
+
+%TODO需要重新画图
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig7.png}
+	\caption{Changes in PageRank values during the iteration process}
+	\label{fig7}
+\end{figure}
+
+The ultimate order of web pages is $C, A, B, D$. 
+
+We could conclude that the PageRank value of a web page is related to both the number of web pages pointing to it and the PageRank values of these pages. To explain it, web page $C$ has the highest number of links, leading to the highest PageRank value. $A$ and $B$ have an equal number of links, but due to the higher PageRank value of $C$, which points to $A$, $A$'s PageRank value is higher than $B$. There is no page points to page $D$, so that its PageRank value is the lowest.
+
+\subsection{Damping factor}
+
+The damping factor is a significant parameter that could affect the PageRank value. In this section, we will analyze the impact of the damping factor on the PageRank value.
+
+Still consider the simple network shown in Fig.3.
+
+We can draw a line chart to illustrate the variation of PageRank values for each webpage with different damping factor $c (c \in (0,1))$ values in Fig.6.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig8.png}
+	\caption{The variation of PageRank values for each webpage with different damping factor $c$ values.}
+	\label{fig8}
+\end{figure}
+
+It is obvious that the PageRank values of web pages differs significantly with a larger damping factor $c$, making it easier to distinguish the 'quality' of web pages. 
+
+Then, we consider a simpler network, as shown in Fig.7.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig9.png}
+	\caption{A simpler network consisting of two web pages.}
+	\label{fig9}
+\end{figure}
+
+Its line chart of PageRank values with different damping factor $c$ values could be drawn in Fig.8.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig10.png}
+	\caption{The line chart of PageRank values with different damping factor $c$ values.}
+	\label{fig10}
+\end{figure}
+
+In this case, the PageRank values of web pages are almost the same with different damping factor $c$ values.
+
+At last, we consider another network, as shown in Fig.9.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig11.png}
+	\caption{The line chart of PageRank values with different damping factor $c$ values.}
+	\label{fig11}
+\end{figure}
+
+Its line chart of PageRank values with different damping factor $c$ values could be drawn in Fig.9.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig12.png}
+	\caption{The line chart of PageRank values with different damping factor $c$ values.}
+	\label{fig12}
+\end{figure}
+
+In this case, the damping factor $c$ in the middle is appropriate. If we choose the $c$ to be too small or too large, it may be hard to differentiate two pairs of web pages.
+
+To sum up, the change of the damping factor $c$ will affect different web pages' PageRank value in different networks. The degree of this affect depends on the structure of network. 
+
+According to the assumption of the Markov chain and general habbit of browsing the Internet, it is assumed that the damping factor closer to 1 causes appropriate results. However, in networks similar to the Network shown in Fig.9, when the damping factor is too close to 1, it is hard to differentiate two pairs of web pages. Therefore, the damping factor of $0.85$ may be the most appropriate value after a large number of experiments by Google.
 
 \section{Discussion on potential enhancements}
 
-This section we will talk about the flaws the PageRank has and the way to improve it.
+In this section, we will discuss the flaws of the PageRank algorithm and enhancements.
+
 \subsection{Flaws}
 
-Although PageRank is a classic web page ranking algorithm, it also has some flaws.
+Although PageRank is a widely used web page ranking algorithm, it has several flaws.
 
-The most obvious flaw is call ``uniform access assumption''. It assumes that users have an equal probability to access all web pages. Apparently, it is not always true. Users' hobbies and social areas may affect this possibility.
+The biggest flaw is called ``uniform access assumption''\footnote[1]{即均匀访问假设.}. It assumes that users have an equal probability to access all web pages. Apparently, it is not true. Users' hobbies and social areas may affect this possibility.
 
 Except the ``uniform access assumption'', there are other flaws:
 \begin{itemize}
-	\item Vulnerability to spam links is a serious problem. Spam links are those that exist on low-quality page or generated through SEO techniques. Their presence can influence the entire page ranking system.
-	\item That the PageRank algorithm is its difficulty in handling dynamic web pages is another problem. If the content of a web page changes frequently, the PageRank algorithm may not be able to reflect these changes in a timely manner. For example, some news websites publish a large number of news every day. If the PageRank algorithm only calculates it once when the website is updated, the importance of these news will not be reflected in the ranking in time.
-	\item Simultaneously, PageRank also suffers from data sparsity and lack of topics. In some cases, the PageRank may overlook some important web pages due to a lack of links to web pages relevant to the search topic. In addition, because PageRank only considers link structure and ignores the content and topic of web pages, it may not adapt well to searches in some specific areas.
+	\item \textbf{Handling a large number of web pages is time-consuming}. The PageRank algorithm needs to calculate the PageRank value of each web page, which is time-consuming when the number of web pages is too large.
+	\item \textbf{Vulnerability to spam links is a serious problem}. Spam links\footnote[1]{即垃圾链接.} are those that exist on low-quality web pages. Their presence can influence the entire page ranking system. In actual situations, PageRank is susceptible to be exploited, causing the fake search results. For example, some web page owners may deliberately create a large number of web pages so as to point to their own web pages, which will increase the PageRank of their web pages. Also, relevant research tends to focus on some web pages' PageRank affected by errors. In order to solve this problem, Google set up a new attribute ``nofollow'' for all web links, which allows web-masters and blogger to create some links that are not important, so that these links do not serve as the ``vote''.
+	\item \textbf{Its difficulty in handling dynamic web pages}. If the content of a web page changes frequently, the PageRank algorithm may not be able to reflect these changes in a timely manner. For example, a news websites publishes a large number of news every day. If the search engine calculates its PageRank value once, the importance of these news will not be shown in the ranking in time.
+	\item \textbf{PageRank also suffers from data sparsity and lack of topics}. In some cases, the PageRank may overlook some important web pages due to a lack of links to web pages relevant to the search topic. In addition, because PageRank only considers link structure but ignores the topic and content of web pages, it may not provide the best results in some specific areas.
 \end{itemize}
 
 \subsection{Way of Enhancements}
 
+In last subsection, we discussed the flaws of the PageRank algorithm. Some of them could be solved by the specific methods in this subsection.
+
 \subsubsection{Matrix Decomposition}
-The number of web pages is extremely large on the Internet. So how to calculate the PageRank value of each page is a key issue. One way to solve the issue is to do this is to explore the specific properties of the hyperlink matrix $P$.
+
+The number of web pages is extremely large on the Internet. How to calculate the PageRank value of each page is a key issue. One way to solve the issue is to do this is to explore the specific properties of the hyperlink matrix $P$.
 
 Consider the hyperlink matrix $P$ of the following form:
 
@@ -359,19 +504,25 @@ Consider the hyperlink matrix $P$ of the following form:
 
 The block $ P_I (I = 1, \ldots, N)$ on the diagonal represents the link within group $I$. We use $n_I$ to represent the number of pages within Group $I$. Each block $I$ does not communicate with the outside world, but there may be a complex relation inside.
 
-Next, let's consider the transition matrix corresponding to the hyperlink matrix \eqref{eq:114514} $\widetilde{P} = cP  + (1-c)(1/n)E$. Let the vector $\boldsymbol{\pi}$ be the PageRank vector of the transition matrix $\widetilde{P}$, which satisfies $\boldsymbol{\pi}\widetilde{P}=\boldsymbol{\pi}, \boldsymbol{\pi e}=1$. In addition, we define the perturbation matrix of block $I$.
+Next, we consider the transition matrix of the hyperlink matrix \eqref{eq:114514}:
+
+\begin{equation}
+	\label{eq:114515}
+	\widetilde{P} = cP  + (1-c)(1/n)E
+\end{equation}
+
+We assume that the vector $\boldsymbol{\pi}$ is the PageRank vector of the transition matrix $\widetilde{P}$, which satisfies $\boldsymbol{\pi}\widetilde{P}=\boldsymbol{\pi}, \boldsymbol{\pi e}=1$. In addition, we could define the perturbation matrix\footnote[1]{即摄动矩阵.} of block $I$.
 
 \begin{equation}
 	\widetilde{P_I}
 	=cP_I + \frac{1-c}{n_I}E
 \end{equation}
-Next let the vector $\boldsymbol{\pi}_I$
-PageRank vector of $\widetilde{P}$, and make
+Next, we let the vector $\boldsymbol{\pi}_I$ be PageRank vector of $\widetilde{P}_I$, and make
 \begin{equation}
 	\boldsymbol{\pi}_I\widetilde{P}_I = \boldsymbol{\pi}_I, \boldsymbol{\pi}_I\boldsymbol{e}=1
 \end{equation}
 
-We can demonstrate the following formula.
+We can acquire the following formula by proof:
 
 \begin{equation}
 	\label{eq:4444}
@@ -381,7 +532,7 @@ We can demonstrate the following formula.
 \begin{proof}
 
 
-	denfine:
+	define:
 	\begin{equation}
 		\widetilde{E}=
 		\begin{bmatrix}
@@ -408,30 +559,44 @@ We can demonstrate the following formula.
 \end{proof}
 Since $\widetilde{P}$ 's PageRank vector is unique, $\boldsymbol{\pi}$ is $\widetilde{P}$ 's PageRank vector.
 
-The proof of this theorem is relatively easy. This decomposition property can also be expressed by the following formula:
+This decomposition\footnote[1]{即矩阵分解.} property can also be expressed by the following formula:
 \begin{equation}
 	\boldsymbol{\pi}=
 	\frac{1-c}{n}e^T[1-cP]^{-1}
 \end{equation}
 
-The hyperlink matrix is extremely sparse, and the time complexity is close to linear in the number of pages. Since we have broken down the hyperlink matrix, we can process each part independently and store different parts of the PageRank approximation vector in different databases to save time and space.
+If the hyperlink matrix is extremely sparse, and the time complexity\footnote[2]{即时间复杂度.} is close to linear in the number of pages. Since we have decomposed the hyperlink matrix, we can process each part independently and store different parts of the PageRank vector in different databases\footnote[1]{即数据库.} to save time and space.
 
+\subsubsection{Topic-sensitive PageRank}
 
+The Topic-sensitive PageRank is an extension of the PageRank algorithm.
 
-\subsubsection{ Topic-sensitive PageRank}
+It is designed to improve the accuracy of search results. Unlike the traditional PageRank, it do not considers the global importance of the page anymore, but ranks web pages based on the importance of a topic, which is more effective for search results that require a specific topic.
 
-The Topic-sensitive PageRank is an extension of the PageRank algorithm.It is designed to improve the accuracy of search results. Unlike the traditional PageRank, it no longer only considers the global importance of the page, but instead ranks pages based on the importance of a given topic. This algorithm is more effective for search results that require a specific topic.
-The main idea of Topic-sensitive PageRank is to build multiple PageRank vectors based on a predefined topic.Each vector has its own topic.We use them to calculate the weight of a page. In a regular keyword search query, we can use the topic of the query keyword to calculate a page's topic-sensitive PageRank score Number. In contextual search, the topic of the queried context can be used to calculate the topic-sensitive PageRank score for the page. By using these (pre-calculated) linear combinations of topic-biased PageRank vectors, it is possible to generate a context-specific page importance score at query time.This will generate more accurate ranking results than using a single generic PageRank vector.
+The main idea of Topic-sensitive PageRank is to build multiple PageRank vectors based on a topic. We use them to calculate the weight of a web page. 
+
+In a regular keyword search query, we can use the topic of the query keyword to calculate a web page's topic-sensitive PageRank score Number. 
+
+In contextual\footnote[2]{即上下文搜索.} search, the topic of the query context can be used to calculate the topic-sensitive PageRank score for the web page. By using these linear combinations of topic-biased PageRank vectors, it is possible to generate a context-specific page importance score at query time.This may generate more accurate ranking results than using a single PageRank vector.
+
 \begin{figure*}[!t]
 	\centering
-	\includegraphics[width=\textwidth]{images/fig3.png}
+	\includegraphics[width=\textwidth]{images/fig4.png}
 	\caption{A system diagram that uses a topic-sensitive PageRank.}
-	\label{fig3}
+	\label{fig5}
 \end{figure*}
 
-An overview of Topic-sensitive is provided below. During offline web crawler processing, we generated 16 topic-sensitive PageRank vectors by using top-level category URLs from OpenDirectoryProject (ODP, a web directory with more than 2.5 million URLs). At query time, we calculate the similarity of between the query (or any available context) and each topic. Then, instead of using a single global rank vector, we use topic-sensitivity linear combination of vectors, weighted using the similarity. By using a group of rank vectors, we can more accurately identify the most important pages relevant to a particular query or query context. Since link-based computation is processed offline in the preprocess, the query time cost is no higher than the normal PageRank.
-\subsubsection{Sparse Matrix Optimization}
-A sparse matrix or sparse array is a matrix in which most of the elements are zero in numerical analysis and scientific computing. A common criterion is that the number of non-zero elements is roughly equal to the number of rows or columns. By contrast, if most of the elements are non-zero, the matrix is considered dense.
+This topic-sensitive method can be demonstrated by the following example:\cite{ref7}
+By using web crawler\footnote[3]{即网络爬虫.}, we generated 16 topic-sensitive PageRank vectors by using URLs from OpenDirectoryProject\footnote[4]{ODP, a web directory with more than 2.5 million URLs.}. 
+At query time, we calculate the similarity of between the query and each topic. 
+Then, instead of using a PageRank vector, we use topic-sensitive vectors, weighted using the similarity. 
+By using a group of rank vectors, we can more accurately identify the most important pages relevant to a particular query or query context. 
+Since some of calculations are processed offline, the query time cost is no higher than the normal PageRank.
+
+\subsubsection{Sparse Matrix Enhancement}
+
+A sparse matrix or sparse array is a matrix where most of the elements are zero. 
+A standard to judge it is that the number of non-zero elements is roughly equal to the number of rows or columns. By contrast, if most of the elements are non-zero, the matrix is considered dense.
 
 There is an example of sparse matrix.
 
@@ -446,33 +611,18 @@ There is an example of sparse matrix.
 	\end{bmatrix}
 \end{equation}
 
-The most computationally intensive part of the PageRank is to calculate the link weight between web pages that involves summing the outbound links of each web page. Since the number of outbound links for most web pages is very large, and many elements of it is zero. So, we can use the sparse matrix algorithm to solve the PageRank Matrix.That means we only need solve the zero elements.
+The most calculation-intensive part of the PageRank algorithm is to calculate the link weight between web pages that involves summing\footnote[1]{即求和.} the links of each web page. 
+Since the number of links for most web pages is very large, and many elements of it is zero. We can use the sparse matrix algorithm to solve the PageRank Matrix, which means we only need solve the non-zero elements.
 
-One way to optimize a sparse matrix is to use the Compressed Sparse Row (CSR) format. In the CSR format, each non-zero element in the matrix saves its value, column index, and row offset. The row offset indicates the position of the first non-zero element in each row. The operation makes each row of the matrix can be represented by a single array. This approach can greatly reduce the computational complexity because only non-zero elements need to be processed. In the PageRank, the use of CSR format reduces computation time and memory consumption, allowing the algorithm to handle larger collections of web pages.
-
-There is brief institution about CSR.
-
-
-For a given block-size parameter $\boldsymbol{\beta}$, CSB partitions the $n\times n$
-matrix $A$ into $n^2/\boldsymbol{\beta}^2$ equal-sized $\boldsymbol{\beta} \times \boldsymbol{\beta}$ square blocks.
-\begin{equation}
-	\begin{pmatrix}
-		A_{00}                       & A_{01}                       & \cdots & A_{0,n/\boldsymbol{\beta}-1}                      \\
-		A_{10}                       & A_{11}                       & \cdots & A_{1,n/\boldsymbol{\beta}-1}                      \\
-		\vdots                       & \vdots                       & \ddots & \vdots                                            \\
-		A_{n/\boldsymbol{\beta}-1,0} & A_{n/\boldsymbol{\beta}-1,1} & \cdots & A_{n/\boldsymbol{\beta}-1,n/\boldsymbol{\beta}-1}
-	\end{pmatrix}
-\end{equation}
-where the block $A_{ij}$ is the $\boldsymbol{\beta} \times \boldsymbol{\beta}$ submatrix of $A$ containing elements falling in rows $i\boldsymbol{\beta}, i\boldsymbol{\beta}+1, \ldots, (i+1)\boldsymbol{\beta}-1$ and columns
-$j\boldsymbol{\beta}, j\boldsymbol{\beta}+1, \ldots, (ji+1)\boldsymbol{\beta}-1$ of the matrix. For simplicity of presentation,
-we shall assume that $\boldsymbol{\beta} $ is an exact power of 2 and that it divides $n$;
-relaxing these assumptions is straightforward.
+We can use the Compressed Sparse Row (CSR) format to conduct sparse matrix optimization. 
+In the CSR format, each non-zero element in the matrix saves its value, column index, and row offset. 
+The row offset indicates the position of the first non-zero element in each row. 
+And each row of the matrix can be represented by a single array. 
+Remaining only non-zero elements to be processed, this approach can greatly reduce the calculation complexity, lowering computation time and memory consumption, also allowing the algorithm to handle larger collections of web pages.
 
 \section{Conclusion}
 
-We research the PageRank briefly and support some possible way to optimize it. The link problem in web network can be transformed into the problem of graph theory and matrix. In the experiment, we use iterative calculation and other methods to explore the influence of damping factor on the efficiency of the algorithm. Theoretically, the flaws of the algorithm and the optimization method are analyzed. One interesting but also persistent effort
-is to study PageRank is that we believe it will influence the AI and the future deeply.
-
+As one of the most significant algorithms in the field of web searching, PageRank algorithm perform well in the current stage of the Internet. In this paper, we introduce the basic idea of PageRank algorithm, analyzing the algorithm in detail. Besides, we research the factors that affect the PageRank algorithm results, especially the damping factor, certifying the appropriateness of the damping factor $0.85$. Based on the PageRank algorithm's flaws, we introduce several effective enhancements, including matrix decomposition, the topic-sensitive PageRank, sparse matrix enhancement. For us, one persistent effort to study PageRank is that we believe it will influence the AI\footnote[1]{Artificial Intelligence.} and the future deeply. In future, the PageRank algorithm may not meet the demand of the Internet, we expect that improved PageRank algorithm will be created to solve the problem. 
 
 \begin{thebibliography}{1}
 
@@ -489,7 +639,8 @@ is to study PageRank is that we believe it will influence the AI and the future 
 	RajeevMotwani, PrabhakarRaghavan, {\it{Randomized Algorithms.}}. Cambridge University Press, United Kingdom, 1995.
 	\bibitem{ref6}
 	Avrachenkov K, Litvak N, {\it{Decomposition of the google pagerank and optimallinking strategy[D].}} INRIA, 2004.
-
+	\bibitem{ref7}
+	Haveliwala T H., {\it{Topicsensitive pagerank}}, Proceedings of the 11th international conference on World Wide Web, 2002.
 
 \end{thebibliography}
 
