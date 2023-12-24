@@ -54,7 +54,7 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \end{abstract}
 
 \begin{IEEEkeywords}
-	Keyword1, Keyword2, Keyword3
+	PageRank, Search Engine, Enhancements
 \end{IEEEkeywords}
 
 
@@ -180,9 +180,9 @@ To ensure connectivity in this graph, we assume that visitors browse randomly an
 	\widetilde{P} = cP + \frac{(1 - c)}{n}E
 \end{equation}
 
-In this equation, $E$ is a matrix that all elements equal to 1, $n$ is the number of web pages, and \(c (c \in (0,1))\) is a special parameter called \textbf{damping factor}. It represents the probability that a vistor will not finish browsing the current web page, commonly set to $0.85$\cite{ref4}.
+In this equation, $E$ is a matrix that all elements equal to 1, $n$ is the number of web pages, and \(c (c \in (0,1))\) is a special parameter called \textbf{damping factor}\footnote[1]{即阻尼系数，后文会介绍到.}. It represents the probability that a vistor will not finish browsing the current web page, commonly set to $0.85$\cite{ref4}.
 
-Since the matrix $\widetilde{P}$ is a random matrix, nonperiodic\footnote[1]{即非周期性的.}, and irreducible\footnote[2]{即不可约的.}. According to the Markov chains\cite{ref5}, a unique stationary distribution vector π exists, which is an eigenvector of the transition matrix $\widetilde{P}$ with an eigenvalue of $1$\cite{ref6}. 
+Since the matrix $\widetilde{P}$ is a random matrix, nonperiodic\footnote[2]{即非周期性的.}, and irreducible\footnote[3]{即不可约的.}. According to the Markov chains\cite{ref5}, a unique stationary distribution vector π exists, which is an eigenvector of the transition matrix $\widetilde{P}$ with an eigenvalue of $1$\cite{ref6}. 
 
 \begin{equation}
 	\label{eq:3}
@@ -268,7 +268,8 @@ Then, we could calculate starting from vector $x(0)$, repeatedly calculate with 
 	x(t+1) = \widetilde{P}x(t)
 \end{equation}
 
-until 
+until:
+
 \begin{equation}
 	\label{eq:11}
 	|x(t+1) - x(t)| < \varepsilon
@@ -306,21 +307,107 @@ In this algorithm, the parameter P represents the hyperlink matrix P, the parame
 
 \section{Experiment and results}
 
-This is a simple section.
-\subsection{The 4th Section 1st Subsection}
+In this section, we will analyze the PageRank algorithm by demonstrating an example. Besides, we will test the damping factor that significantly affects PageRank.
 
-This is a simple subsection.
+\subsection{Factors that affect PageRank}
 
-This is an equation:
+Consider a simple network consisting of four web pages, shown in Fig.3.
 
-You can ref it by see\eqref{eq:1}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig5.png}
+	\caption{A simple network consisting of four web pages.}
+	\label{fig4}
+\end{figure}
 
-\subsection{The 4th Section 2nd Subsection}
+We could get its hyperlink matrix $P$ by using Equation (1):
+\begin{equation}
+	\label{eq:12}
+	P = \begin{bmatrix}
+		0 & \frac{1}{2} & \frac{1}{2} & 0 \\
+		0 & 0 & 1 & 0 \\
+		1 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 \\
+		\end{bmatrix}
+\end{equation}
 
-This is a simple subsection too.
+We assumes that the damping factor $c$ is $0.85$, as Google commonly uses, and then calculate its transition matrix.
 
-This is a algorithm:
+\begin{equation}
+	\label{eq:13}
+	\widetilde{P} = \begin{bmatrix}
+		0.0375 & 0.4625 & 0.4625 & 0.0375 \\
+		0.0375 & 0.0375 & 0.8875 & 0.0375 \\
+		0.8875 & 0.0375 & 0.0375 & 0.0375 \\
+		0.0375 & 0.0375 & 0.8875 & 0.0375 \\
+		\end{bmatrix}
+\end{equation}
 
+In this matrix, $\widetilde{P}_{ij}$ represents the probability that visitors choose to jump from page $i$ to page $j$.
+
+We assume that $t$ is the iteration number. When $t = 0$, the initial PageRank values for each web page are set to 0.25.
+
+\begin{equation}
+	\label{eq:14}
+	x(0) = \begin{bmatrix}
+		0.25 \\
+		0.25 \\
+		0.25 \\
+		0.25 \\
+		\end{bmatrix}
+\end{equation}
+
+After the first iteration, we get:
+
+\begin{equation}
+	\label{eq:15}
+	x(1) = \begin{bmatrix}
+		0.25 \\
+		0.14375 \\
+		0.56875 \\
+		0.0375 \\
+		\end{bmatrix}
+\end{equation}
+
+We could draw the transition of the PageRank values from $t = 0$ to $t = 1$ by graph:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig6.png}
+	\caption{The transition of the PageRank values from $t = 0$ to $t = 1$.}
+	\label{fig6}
+\end{figure}
+
+In each iteration, the PageRank value of the current web page multiplies the damping factor c, so that it evenly transferred to the web page that need to be calculated. 
+
+As iterations continue, the PageRank values tend to be stable:
+
+\begin{equation}
+	\label{eq:16}
+	x(1) = \begin{bmatrix}
+		0.37252685 \\
+		0.19582391 \\
+		0.39414924 \\
+		0.0375 \\
+		\end{bmatrix}
+\end{equation}
+
+We could also draw the line chart to describe the changes in PageRank values during the iteration process:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig7.png}
+	\caption{Changes in PageRank values during the iteration process}
+	\label{fig7}
+\end{figure}
+
+The ultimate order of web pages is $C, A, B, D$. 
+
+We could conclude that the PageRank value of a web page is related to both the number of web pages pointing to it and the PageRank values of these pages. To explain it, web page $C$ has the highest number of links, leading to the highest PageRank value. $A$ and $B$ have an equal number of links, but due to the higher PageRank value of $C$, which points to $A$, $A$'s PageRank value is higher than $B$. There is no page points to page $D$, so that its PageRank value is the lowest.
+
+\subsection{Damping factor}
+
+The damping factor is a significant parameter that could affect the PageRank value. In this section, we will analyze the impact of the damping factor on the PageRank value.
 
 
 
@@ -329,9 +416,9 @@ This is a algorithm:
 This section we will talk about the flaws the PageRank has and the way to improve it.
 \subsection{Flaws}
 
-Although PageRank is a classic web page ranking algorithm, it also has some flaws.
+Although PageRank is a commonly-used web page ranking algorithm, it has some flaws.
 
-The most obvious flaw is call ``uniform access assumption''. It assumes that users have an equal probability to access all web pages. Apparently, it is not always true. Users' hobbies and social areas may affect this possibility.
+The most obvious flaw is called ``uniform access assumption''. It assumes that users have an equal probability to access all web pages. Apparently, it is not always true. Users' hobbies and social areas may affect this possibility.
 
 Except the ``uniform access assumption'', there are other flaws:
 \begin{itemize}
@@ -424,9 +511,9 @@ The Topic-sensitive PageRank is an extension of the PageRank algorithm.It is des
 The main idea of Topic-sensitive PageRank is to build multiple PageRank vectors based on a predefined topic.Each vector has its own topic.We use them to calculate the weight of a page. In a regular keyword search query, we can use the topic of the query keyword to calculate a page's topic-sensitive PageRank score Number. In contextual search, the topic of the queried context can be used to calculate the topic-sensitive PageRank score for the page. By using these (pre-calculated) linear combinations of topic-biased PageRank vectors, it is possible to generate a context-specific page importance score at query time.This will generate more accurate ranking results than using a single generic PageRank vector.
 \begin{figure*}[!t]
 	\centering
-	\includegraphics[width=\textwidth]{images/fig3.png}
+	\includegraphics[width=\textwidth]{images/fig4.png}
 	\caption{A system diagram that uses a topic-sensitive PageRank.}
-	\label{fig3}
+	\label{fig5}
 \end{figure*}
 
 An overview of Topic-sensitive is provided below. During offline web crawler processing, we generated 16 topic-sensitive PageRank vectors by using top-level category URLs from OpenDirectoryProject (ODP, a web directory with more than 2.5 million URLs). At query time, we calculate the similarity of between the query (or any available context) and each topic. Then, instead of using a single global rank vector, we use topic-sensitivity linear combination of vectors, weighted using the similarity. By using a group of rank vectors, we can more accurately identify the most important pages relevant to a particular query or query context. Since link-based computation is processed offline in the preprocess, the query time cost is no higher than the normal PageRank.
