@@ -201,6 +201,21 @@ Besides, the PageRank values could be described using another formula.
 
 In this equation, $A$ is the web page we manage to calculate the PageRank value,  $\text{PR}(T_i)$ is the PageRank value of other web page $i$ with a hyperlink pointing to $A$, and $L(T_i)$ indicates the number of hyperlinks from other web page $i$  to any other web page $j$ (See the value $k$ in Equation (1)). It is obvious that Equations (2) and (3) are the matrix form of Equation (4).
 
+\subsection{Overview of calculating methods}
+
+In last subsection, we describe the principles of the PageRank algorithm. In this subsection, we will introduce its calculating methods.
+
+PageRank can be calculated by iterative method or algebraic method\footnote[1]{即代数法.}. 
+
+The iterative method is also called power iteration. Both the two methods include the same mathematical operations. 
+
+In the algebraic method, PageRank values are calculated by constructing and solving a group of linear equations\footnote[2]{即线性方程组.} that describes the relationships of web pages, which requires constructing a very large matrix. Solving the system of equations is much more difficult and complex, even for computers.
+
+But for the iterative method, it could acquire final solution by several iterations. The basic idea is to use the Equation(3) to calculate the PageRank value of the web page through iterations. By multiple iterations, the PageRank values gradually verge\footnote[3]{即趋于.} to stability. This method's code is also easier to be written. Therefore, we mainly describe the iterative method in next subsection. 
+
+\subsection{Iterative method}
+
+
 
 
 
