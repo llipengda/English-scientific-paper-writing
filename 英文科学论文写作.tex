@@ -394,6 +394,7 @@ As iterations continue, the PageRank values tend to be stable:
 
 We could also draw the line chart to describe the changes in PageRank values during the iteration process:
 
+%TODO需要重新画图
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=2.5in]{images/fig7.png}
@@ -409,7 +410,62 @@ We could conclude that the PageRank value of a web page is related to both the n
 
 The damping factor is a significant parameter that could affect the PageRank value. In this section, we will analyze the impact of the damping factor on the PageRank value.
 
+Still consider the simple network shown in Fig.3.
 
+We can draw a line chart to illustrate the variation of PageRank values for each webpage with different damping factor $c (c \in (0,1))$ values in Fig.6.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig8.png}
+	\caption{The variation of PageRank values for each webpage with different damping factor $c$ values.}
+	\label{fig8}
+\end{figure}
+
+It is obvious that the PageRank values of web pages differs significantly with a larger damping factor $c$, making it easier to distinguish the 'quality' of web pages. 
+
+Then, we consider a simpler network, as shown in Fig.7.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig9.png}
+	\caption{A simpler network consisting of two web pages.}
+	\label{fig9}
+\end{figure}
+
+Its line chart of PageRank values with different damping factor $c$ values could be drawn in Fig.8.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig10.png}
+	\caption{The line chart of PageRank values with different damping factor $c$ values.}
+	\label{fig10}
+\end{figure}
+
+In this case, the PageRank values of web pages are almost the same with different damping factor $c$ values.
+
+At last, we consider another network, as shown in Fig.9.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig11.png}
+	\caption{The line chart of PageRank values with different damping factor $c$ values.}
+	\label{fig11}
+\end{figure}
+
+Its line chart of PageRank values with different damping factor $c$ values could be drawn in Fig.9.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=2.5in]{images/fig12.png}
+	\caption{The line chart of PageRank values with different damping factor $c$ values.}
+	\label{fig12}
+\end{figure}
+
+In this case, the damping factor $c$ in the middle is appropriate. If we choose the $c$ to be too small or too large, it may be hard to differentiate two pairs of web pages.
+
+To sum up, the change of the damping factor $c$ will affect different web pages' PageRank value in different networks. The degree of this affect depends on the structure of network. 
+
+According to the assumption of the Markov chain and general habbit of browsing the Internet, it is assumed that the damping factor closer to 1 causes appropriate results. However, in networks similar to the Network shown in Fig.9, when the damping factor is too close to 1, it is hard to differentiate two pairs of web pages. Therefore, the damping factor of $0.85$ may be the most appropriate value after a large number of experiments by Google.
 
 \section{Discussion on potential enhancements}
 
