@@ -322,25 +322,6 @@ There is an example of sparse matrix.
 
 The most computationally intensive part of the PageRank is to calculate the link weight between web pages that involves summing the outbound links of each web page. Since the number of outbound links for most web pages is very large, and many elements of it is zero. So, we can use the sparse matrix algorithm to solve the PageRank Matrix.That means we only need solve the zero elements.
 
-One way to optimize a sparse matrix is to use the Compressed Sparse Row (CSR) format. In the CSR format, each non-zero element in the matrix saves its value, column index, and row offset. The row offset indicates the position of the first non-zero element in each row. The operation makes each row of the matrix can be represented by a single array. This approach can greatly reduce the computational complexity because only non-zero elements need to be processed. In the PageRank, the use of CSR format reduces computation time and memory consumption, allowing the algorithm to handle larger collections of web pages.
-
-There is brief institution about CSR.
-
-
-For a given block-size parameter $\boldsymbol{\beta}$, CSB partitions the $n\times n$
-matrix $A$ into $n^2/\boldsymbol{\beta}^2$ equal-sized $\boldsymbol{\beta} \times \boldsymbol{\beta}$ square blocks.
-\begin{equation}
-	\begin{pmatrix}
-		A_{00}                       & A_{01}                       & \cdots & A_{0,n/\boldsymbol{\beta}-1}                      \\
-		A_{10}                       & A_{11}                       & \cdots & A_{1,n/\boldsymbol{\beta}-1}                      \\
-		\vdots                       & \vdots                       & \ddots & \vdots                                            \\
-		A_{n/\boldsymbol{\beta}-1,0} & A_{n/\boldsymbol{\beta}-1,1} & \cdots & A_{n/\boldsymbol{\beta}-1,n/\boldsymbol{\beta}-1}
-	\end{pmatrix}
-\end{equation}
-where the block $A_{ij}$ is the $\boldsymbol{\beta} \times \boldsymbol{\beta}$ submatrix of $A$ containing elements falling in rows $i\boldsymbol{\beta}, i\boldsymbol{\beta}+1, \ldots, (i+1)\boldsymbol{\beta}-1$ and columns
-$j\boldsymbol{\beta}, j\boldsymbol{\beta}+1, \ldots, (ji+1)\boldsymbol{\beta}-1$ of the matrix. For simplicity of presentation,
-we shall assume that $\boldsymbol{\beta} $ is an exact power of 2 and that it divides $n$;
-relaxing these assumptions is straightforward.
 
 \section{Conclusion}
 
